@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zui - Native UI Framework for Go Engineers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sketch.js/1.0/sketch.min.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/"
+        }
+    }
+    </script>
+    <style>
+        /* Existing styles remain here */
+
+        /* CSS Reset Rules */
+        .css-reset {
+
+            /* 1. Use a more-intuitive box-sizing model. */
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+            }
+
+            /* 2. Remove default margin */
+            * {
+                margin: 0;
+            }
+
+            /* 3. Add accessible line-height, 4. Improve text rendering */
+            body {
+                line-height: 1.5;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            /* 5. Improve media defaults */
+            img,
+            picture,
+            video,
+            canvas,
+            svg {
+                display: block;
+                max-width: 100%;
+            }
+
+            /* 6. Remove built-in form typography styles */
+            input,
+            button,
+            textarea,
+            select {
+                font: inherit;
+            }
+
+            /* 7. Avoid text overflows */
+            p,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                overflow-wrap: break-word;
+                text-wrap: balance;
+            }
+
+            p, li, figcaption {
+                max-width:65ch;
+            }
+
+            /* 8. Create a root stacking context */
+            #root,
+            #__next {
+                isolation: isolate;
+            }
+        }
+    </style>
+    <style>
+        @font-face {
+            font-family: 'AfrobeatNova';
+            src: url('./AfrobeatNova-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            overflow-x: hidden; 
+            font-family: 'Inter', sans-serif;
+            background-color: transparent;
+            color: #fff;
+        }
+        #webgl-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1;
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .logo-container {
+            grid-column: 1 / 3;
+            grid-row: 1;
+            align-self: start;
+            padding-top: 20px;
+        }
+        .logo {
+            font-size: 4.7em;
+            font-family: "AfrobeatNova", sans-serif;
+            font-weight: normal;
+            color: white;
+            text-align: left;
+            mix-blend-mode: normal;
+            transition: all 0.3s ease;
+            animation: neon 3s infinite;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
+        .logo a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .version {
+            font-family: 'Courier New', monospace;
+            font-size: 0.2em;
+            color: #FFFACD;
+            position: absolute;
+            bottom: -0.5em;
+            right: 0;
+        }
+        @keyframes neon {
+            0%, 100% {
+                text-shadow: 
+                    0 0 5px #E6F3FF,
+                    0 0 10px #E6F3FF,
+                    0 0 20px #FFFFFF,
+                    0 0 30px #FFFFFF,
+                    0 0 40px #FFDAB9,
+                    0 0 70px #FFDAB9;
+            }
+            50% {
+                text-shadow: 
+                    0 0 7px #E6F3FF,
+                    0 0 14px #E6F3FF,
+                    0 0 25px #FFFFFF,
+                    0 0 35px #FFFFFF,
+                    0 0 45px #FFDAB9,
+                    0 0 75px #FFDAB9;
+            }
+        }
+        .top-nav {
+            grid-column: 3 / -1;
+            grid-row: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+        }
+        .nav-left, .nav-right {
+            display: flex;
+        }
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .github-icon {
+            width: 24px;
+            height: 24px;
+            transition: opacity 0.3s ease;
+            fill: currentColor; /* This will make the icon inherit the text color */
+        }
+
+        .github-icon:hover {
+            opacity: 0.8;
+        }
+
+        /* For light mode (if implemented) */
+        body.light-mode .github-icon {
+            fill: #24292e; /* GitHub's dark gray color for light backgrounds */
+        }
+
+        .platform-icons {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr); /* Adjust the number based on your icon count */
+            gap: 2em;
+            width: 100%;
+            max-width: 33vw;  /*Adjust this value as needed */
+            align-self: center;
+            margin-bottom: 2em;
+            margin-top: 10em;
+        }
+
+        .platform-icon {
+            width: 48px;
+            height: 48px;
+            position: relative;
+        }
+
+        .platform-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: rgba(255, 255, 255, 0.7);
+            transition: fill 0.3s ease;
+        }
+
+        .platform-icon svg use {
+            fill: inherit;
+        }
+
+        .platform-icon:hover svg {
+            fill: rgba(255, 255, 255, 1);
+        }
+
+        .soon, .ready, .pending {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            white-space: nowrap;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+
+        .soon {
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .ready {
+            color: #39FF14; /* Bright neon apple green */
+            text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14; /* Glow effect */
+            background-color: rgba(0, 0, 0, 0.3); /* Slightly transparent background */
+        }
+
+        .pending{
+            color: #ee9700; /* Bright yellow */
+            text-shadow: 0 0 5px #ee9700, 0 0 10px #ee9700; /* Glow effect */
+            background-color: rgba(0, 0, 0, 0.3); /* Slightly transparent background */
+        }
+
+        .platform-icon .ready {
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 80px 0;
+            box-sizing: border-box;
+        }
+        .hero {
+            justify-content: center;
+            padding: 0;
+        }
+        .hero-content {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+        .hero-text {
+            grid-column: 1 / 8;
+            text-align: left;
+            pointer-events: none;
+        }
+        .hero-image {
+            grid-column: 8 / -1;
+        }
+
+        .overview-content {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+        .overview-text {
+            grid-column: 1 / 8;
+            text-align: left;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            text-align: left;
+            margin-top: 0;
+        }
+        h1 {
+            font-size: 5em;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            line-height: 0.96;
+        }
+        h2 {
+            font-size: 4.25em;
+            font-weight: 700;
+            color: #000;
+        }
+        p {
+            font-size: 1.4em;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            font-weight: 300;
+            text-align: left;
+            line-height: 1.6em;
+            letter-spacing: 0.2ch;
+        }
+        .overview {
+            background-color: white;
+            color: #000;
+        }
+        .overview .grid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .overview p {
+            color: #000;
+            
+        }
+
+        .gopher-section {
+            background-color: #000000;
+            color: #ffffff;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .gopher-content {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .gopher-text {
+            flex: 1;
+            padding-right: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #gopher-container {
+            flex: 1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #gopher-canvas-container {
+            width: 100%;
+            height: 80%;
+        }
+
+        .gopher-caption {
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .gopher-attribution {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(5px);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 400;
+            border-radius: 50px;
+            box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.02);
+        }
+    </style>
+</head>
+<body>
+    <div id="webgl-container"></div>
+    <div class="content-wrapper">
+        <div class="grid-container">
+            <div class="logo-container">
+                <div class="logo">
+                    <a href="https://zui.dev" target="_blank">zui</a>
+                    <pre class="version">v0.991</pre>
+                </div>
+            </div>
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <a href="#pricing">Pricing</a>
+                    <a href="#get-started">Get Started</a>
+                    <a href="#community">Community</a>
+                </div>
+                <div class="nav-right">
+                    <a href="#docs">Documentation</a>
+                    <a href="#features">Features</a>
+                    <a href="https://github.com/zuiframework" aria-label="GitHub">
+                        <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 98 96">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                        </svg>
+                    </a>
+                    <a href="#login">Login/Signup</a>
+                </div>
+            </nav>
+        </div>
+
+        <section class="hero">
+        <div class="grid-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Finally the native multiplatform UI framework for Go Engineers!</h1>
+                    <p>Simple, Stable, Easy to deploy, Batteries Included. Awesome!</p>
+                    <a href="#join-waitlist" class="cta-button"> > Join Pre-release Mailing List</a>
+                </div>
+                <div class="hero-image">
+                    <!-- Placeholder for future image or animation -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <section class="overview">
+            <div class="grid-container">
+                <div class="overview-content">
+                    <div class="overview-text">
+                        <h2>Overview</h2>
+                        <p>Carefully designed from first principles in order to make our lives <span style="font-weight: bold;">easier</span> and create <span style="font-weight: bold;">beautiful</span> graphical applications faster,
+                            zui's bespoke, opinionated design enables a plethora of bug-free features in one simple and cohesive set of libraries.
+                            
+                        </p>
+                        <p>We are hopeful that it will stand the test of time across all present and future platforms with the utmost care for simplicity, ergonomics, and developer experience.</p>
+                        <p><span style="text-decoration: underline;">In a few keywords</span>, zui is: Functional, Composable, Multiplatform, Native-first, Semi-Declarative, simplified reactivity, Isomorphic, pure go code hence minimal tooling requirements.</p>
+                    </div>
+                    <div class="overview-image">
+                    </div>
+                </div>
+                <!-- Add your features list or grid here, also link to principles whcih is a distillation of 4 years of research to make a UI framework that will stand the etst of time across all preent and future platforms with the utmost care for simplicity, ergonomics, DX -->
+            </div>
+        </section>
+
+        <section class="gopher-section">
+            <div class="gopher-content">
+                <div class="gopher-text">
+                    <h2>Meet Your New Companion</h2>
+                    <p>Zui brings the power of Go to your UI development, with the playful spirit of our favorite mascot. Simple, fun, yet sharp.</p>
+                </div>
+                <div id="gopher-container">
+                    <div id="gopher-canvas-container"></div>
+                    <p class="gopher-caption">The transcendent Go gopher: is it turning clockwise or counter-clockwise?</p>
+                    <p class="gopher-attribution">The Go Gopher mascot, created by Renee French.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+
+        let scene, camera, renderer, gopher;
+        let edges = [];
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000000);
+
+            const container = document.getElementById('gopher-canvas-container');
+            const aspect = container.clientWidth / container.clientHeight;
+            camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
+            
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            const loader = new OBJLoader();
+            loader.load(
+                'https://raw.githubusercontent.com/atdiar/misc/main/wiredgopher3dLP.obj',
+                (object) => {
+                    gopher = new THREE.Group();
+                    object.traverse((child) => {
+                        if (child instanceof THREE.Mesh) {
+                            const geometry = new THREE.EdgesGeometry(child.geometry);
+                            const positions = geometry.attributes.position.array;
+                            
+                            for (let i = 0; i < positions.length; i += 6) {
+                                const start = new THREE.Vector3(positions[i], positions[i+1], positions[i+2]);
+                                const end = new THREE.Vector3(positions[i+3], positions[i+4], positions[i+5]);
+                                
+                                const edgeGeometry = new THREE.BufferGeometry().setFromPoints([start, end]);
+                                const material = new THREE.LineBasicMaterial({ color: 0x00ADD8 });
+                                const edge = new THREE.Line(edgeGeometry, material);
+                                
+                                edges.push(edge);
+                                gopher.add(edge);
+                            }
+                        }
+                    });
+                    scene.add(gopher);
+                    
+                    const box = new THREE.Box3().setFromObject(gopher);
+                    const center = box.getCenter(new THREE.Vector3());
+                    gopher.position.sub(center);
+                    
+                    camera.position.z = 3.6;
+                    
+                    animate();
+                },
+                (xhr) => {
+                    console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+                },
+                (error) => {
+                    console.error('An error happened', error);
+                }
+            );
+
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (gopher) {
+                gopher.rotation.y += 0.002;
+
+                const time = Date.now() * 0.001;
+                edges.forEach((edge, index) => {
+                    const hue = (time + index * 0.01) % 1;
+                    edge.material.color.setHSL(hue, 1, 0.5);
+                });
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = renderer.domElement.width / renderer.domElement.height;
+            camera.updateProjectionMatrix();
+        }
+
+        init();
+    </script>
+
+    <script>
+        (function() {
+            var GLSL = {
+                vert: `
+                    attribute vec2 a_position;
+                    void main() {
+                        gl_Position = vec4(a_position, 0, 1);
+                    }
+                `,
+                frag: `
+                    precision mediump float;
+                    uniform vec2 u_resolution;
+                    uniform float u_millis;
+    
+                    // Fixed parameters
+                    const float u_brightness = 0.41;
+                    const float u_blobiness = 1.12;
+                    const float u_particles = 40.0;
+                    const float u_energy = 1.01;
+    
+                    float noise(vec2 co) {
+                        return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
+                    }
+    
+                    void main() {
+                        vec2 position = (gl_FragCoord.xy / u_resolution.x);
+                        float t = u_millis * 0.001 * u_energy;
+                        
+                        float a = 0.0, b = 0.0, c = 0.0;
+                        vec2 pos, center = vec2(0.5, 0.5 * (u_resolution.y / u_resolution.x));
+                        
+                        float limit = u_particles / 40.0;
+                        float step = 1.0 / u_particles;
+                        
+                        for (float i = 0.0; i <= 1.0; i += 0.025) {
+                            if (i <= limit) {
+                                vec2 np = vec2(i, 1.0-i);
+                                float na = noise(np * 1.1), nb = noise(np * 2.8),
+                                      nc = noise(np * 0.7), nd = noise(np * 3.2);
+    
+                                pos = center;
+                                pos.x += sin(t*na) * cos(t*nb) * tan(t*na*0.15) * 0.3;
+                                pos.y += tan(t*nc) * sin(t*nd) * 0.1;
+                                
+                                float d = pow(1.6*na / length(pos - position), u_blobiness);
+                                
+                                if (i < limit * 0.3333) a += d;
+                                else if (i < limit * 0.6666) b += d;
+                                else c += d;
+                            }
+                        }
+                        
+                        vec3 col = vec3(a*c, b*c, a*b) * 0.0001 * u_brightness;
+    
+                        // Apply scanlines
+                        col -= mod(gl_FragCoord.y, 2.0) < 1.0 ? 0.5 : 0.0;
+    
+                        gl_FragColor = vec4(col, 1.0);
+                    }
+                `
+            };
+    
+            var gl = Sketch.create({
+                container: document.getElementById('webgl-container'),
+                type: Sketch.WEB_GL
+            });
+    
+            gl.setup = function() {
+                var vert = this.createShader(this.VERTEX_SHADER);
+                var frag = this.createShader(this.FRAGMENT_SHADER);
+                this.shaderSource(vert, GLSL.vert);
+                this.shaderSource(frag, GLSL.frag);
+                this.compileShader(vert);
+                this.compileShader(frag);
+                
+                this.shaderProgram = this.createProgram();
+                this.attachShader(this.shaderProgram, vert);
+                this.attachShader(this.shaderProgram, frag);
+                this.linkProgram(this.shaderProgram);
+                
+                this.useProgram(this.shaderProgram);
+    
+                this.shaderProgram.attributes = {
+                    position: this.getAttribLocation(this.shaderProgram, 'a_position')
+                };
+                this.shaderProgram.uniforms = {
+                    resolution: this.getUniformLocation(this.shaderProgram, 'u_resolution'),
+                    millis: this.getUniformLocation(this.shaderProgram, 'u_millis')
+                };
+    
+                this.geometry = this.createBuffer();
+                this.geometry.vertexCount = 6;
+                this.bindBuffer(this.ARRAY_BUFFER, this.geometry);
+                this.bufferData(this.ARRAY_BUFFER, new Float32Array([-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0]), this.STATIC_DRAW);
+                this.enableVertexAttribArray(this.shaderProgram.attributes.position);
+                this.vertexAttribPointer(this.shaderProgram.attributes.position, 2, this.FLOAT, false, 0, 0);
+    
+                this.resize();
+            };
+    
+            gl.updateUniforms = function() {
+                if (!this.shaderProgram) return;
+                this.uniform2f(this.shaderProgram.uniforms.resolution, this.width, this.height);
+            };
+    
+            gl.draw = function() {
+                this.uniform1f(this.shaderProgram.uniforms.millis, this.millis + 5000);
+                this.clear(this.COLOR_BUFFER_BIT | this.DEPTH_BUFFER_BIT);
+                this.bindBuffer(this.ARRAY_BUFFER, this.geometry);
+                this.drawArrays(this.TRIANGLES, 0, this.geometry.vertexCount);
+            };
+    
+            gl.resize = function() {
+                this.viewport(0, 0, this.width, this.height);
+                this.updateUniforms();
+            };
+        })();
+    </script>
+</body>
+</html>
+
+<!-- 
+<div class="platform-icons">
+                            <div class="platform-icon">
+                                <svg fill="#ffffff" width="800px" height="800px" viewBox="0 0 24 24" version="1" xmlns="http://www.w3.org/2000/svg">
+                                    <title>WebUI</title>
+                                    <path d="M13.1 3.5l.7 1.1.7-1.1v1.5h1v-3h-1l-.7 1.1-.6-1.1h-1.1v3h1zM18.4 5v-1h-1.4v-2h-1v3zM9.8 5h1v-2h.9v-1h-2.8v1h.9zM6.6 4h.9v1h1v-3h-1v1h-.9v-1h-1v3h1zM5 6l1.2 14.4 5.8 1.6 5.8-1.6 1.2-14.4h-14zm11.3 4.6h-6.8l.2 1.8h6.3999999999999995l-.5 5.5-3.6 1-3.6-1-.3-2.9h1.8l.1 1.5 2 .5 2-.5.2-2.3h-6.2l-.5-5.3h9l-.2 1.7z"/></svg>
+                                <span class="ready">Ready!</span>
+                            </div>
+                            <div class="platform-icon">
+                                <svg  width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" version="1.1" fill="#000" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                    <rect height="10.5" width="12.5" y="2.75" x="1.75"/>
+                                    <path d="m8.75 10.25h2.5m-6.5-4.5 2.5 2.25-2.5 2.25"/>
+                                    <title>Terminal UI</title>
+                                    </svg>
+                                <span class="ready">Ready!</span>
+                            </div>
+                            <div class="platform-icon">
+                                <svg fill="#ffffff" width="800px" height="800px" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg"><title>iOS</title><path d="M1.1 6.05C.486 6.05 0 6.53 0 7.13A1.08 1.08 0 0 0 1.1 8.21C1.72 8.21 2.21 7.73 2.21 7.13C2.21 6.53 1.72 6.05 1.1 6.05M8.71 6.07C5.35 6.07 3.25 8.36 3.25 12C3.25 15.67 5.35 17.95 8.71 17.95C12.05 17.95 14.16 15.67 14.16 12C14.16 8.36 12.05 6.07 8.71 6.07M19.55 6.07C17.05 6.07 15.27 7.45 15.27 9.5C15.27 11.13 16.28 12.15 18.4 12.64L19.89 13C21.34 13.33 21.93 13.81 21.93 14.64C21.93 15.6 20.96 16.28 19.58 16.28C18.17 16.28 17.11 15.59 17 14.53H15C15.08 16.65 16.82 17.95 19.46 17.95C22.25 17.95 24 16.58 24 14.4C24 12.69 23 11.72 20.68 11.19L19.35 10.89C17.94 10.55 17.36 10.1 17.36 9.34C17.36 8.38 18.24 7.74 19.54 7.74C20.85 7.74 21.75 8.39 21.85 9.46H23.81C23.76 7.44 22.09 6.07 19.55 6.07M8.71 7.82C10.75 7.82 12.06 9.45 12.06 12C12.06 14.57 10.75 16.2 8.71 16.2C6.65 16.2 5.35 14.57 5.35 12C5.35 9.45 6.65 7.82 8.71 7.82M.111 9.31V17.76H2.1V9.31H.11Z"/></svg>
+                                <span class="soon">Soon!</span>
+                            </div>
+                            <div class="platform-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-147 -70 294 345">
+                                    <g fill="#ffffff">
+                                    <use stroke-width="14.4" xlink:href="#b" stroke="#FFF"/>
+                                    <use xlink:href="#a" transform="scale(-1,1)"/>
+                                    <g id="a" stroke="#000" stroke-width="7.2">
+                                    <rect rx="6.5" transform="rotate(29)" height="86" width="13" y="-86" x="14"/>
+                                    <rect id="c" rx="24" height="133" width="48" y="41" x="-143"/>
+                                    <use y="97" x="85" xlink:href="#c"/>
+                                    </g>
+                                    <g id="b">
+                                    <ellipse cy="41" rx="91" ry="84"/>
+                                    <rect rx="22" height="182" width="182" y="20" x="-91"/>
+                                    </g>
+                                    </g>
+                                    <g stroke="#FFF" stroke-width="7.2" fill="#FFF">
+                                    <path d="m-95 44.5h190"/><circle cx="-42" r="4"/><circle cx="42" r="4"/>
+                                    </g>
+                                    </svg>
+                                <span class="soon">Soon!</span>
+                            </div>
+                            <div class="platform-icon">
+                                <svg
+                                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                xmlns:cc="http://creativecommons.org/ns#"
+                                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                xmlns:svg="http://www.w3.org/2000/svg"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                width="32"
+                                height="32"
+                                id="svg6044"
+                                version="1.1"
+                                inkscape:version="0.48.1 r9760"
+                                sodipodi:docname="linux.svg"
+                                style="display:inline">
+                                <defs
+                                    id="defs6046" />
+                                <sodipodi:namedview
+                                    id="base"
+                                    pagecolor="#ffffff"
+                                    bordercolor="#666666"
+                                    borderopacity="1.0"
+                                    inkscape:pageopacity="0.0"
+                                    inkscape:pageshadow="2"
+                                    inkscape:zoom="0.5"
+                                    inkscape:cx="-82.165251"
+                                    inkscape:cy="-18.965267"
+                                    inkscape:current-layer="layer1"
+                                    showgrid="true"
+                                    inkscape:document-units="px"
+                                    inkscape:grid-bbox="true"
+                                    inkscape:window-width="1680"
+                                    inkscape:window-height="997"
+                                    inkscape:window-x="0"
+                                    inkscape:window-y="0"
+                                    inkscape:window-maximized="1"
+                                    fit-margin-top="0"
+                                    fit-margin-left="0"
+                                    fit-margin-right="0"
+                                    fit-margin-bottom="0"
+                                    borderlayer="true"
+                                    inkscape:snap-global="false"
+                                    showguides="true"
+                                    inkscape:guide-bbox="true"
+                                    inkscape:object-paths="true"
+                                    inkscape:snap-smooth-nodes="true"
+                                    inkscape:object-nodes="true"
+                                    inkscape:snap-intersection-paths="true"
+                                    inkscape:snap-grids="false" />
+                                <metadata
+                                    id="metadata6049">
+                                    <rdf:RDF>
+                                    <cc:Work
+                                        rdf:about="">
+                                        <dc:format>image/svg+xml</dc:format>
+                                        <dc:type
+                                        rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                        <dc:title />
+                                    </cc:Work>
+                                    </rdf:RDF>
+                                </metadata>
+                                <g
+                                    id="layer1"
+                                    inkscape:label="Layer 1"
+                                    inkscape:groupmode="layer"
+                                    style="display:inline">
+                                    <path
+                                    style="fill:#ffffff;fill-opacity:1;stroke:none"
+                                    d="m 13.96517,6.321257 c -0.409615,0.112001 -0.466405,0.899089 -0.28125,1.28125 0.199324,0.411407 0.344268,0.607553 0.46875,0.71875 0.249413,-0.198402 0.474848,-0.403711 0.75,-0.5625 2.95e-4,-0.140262 0.0053,-0.288624 0,-0.4375 -0.02926,-0.819001 -0.499556,-1.119747 -0.9375,-1 z"
+                                    id="path4032"
+                                    inkscape:connector-curvature="0" />
+                                    <path
+                                    style="fill:#ffffff;fill-opacity:1;stroke:none"
+                                    d="m 18.27767,6.258757 c -0.393189,-0.04582 -0.85925,0.252004 -0.875,0.8125 -0.009,0.321085 -0.01287,0.575574 0.09375,0.78125 0.262705,0.111826 0.520634,0.225184 0.78125,0.34375 0.364119,-0.07459 0.732938,-0.345682 0.75,-0.75 0.03448,-0.817013 -0.281591,-1.132918 -0.75,-1.1875 z"
+                                    id="path4034"
+                                    inkscape:connector-curvature="0" />
+                                    <path
+                                    style="fill:#ff9900;fill-opacity:1;stroke:none"
+                                    d="m 16.09017,7.665007 c -0.204917,-0.01301 -0.4368,0.03187 -0.8125,0.21875 -0.565901,0.28149 -1.157583,0.776809 -1.59375,1.1875 -0.1082,0.10188 -0.190175,0.265876 -0.21875,0.40625 -0.02858,0.140374 -0.01091,0.222529 0.0625,0.28125 0.05429,0.04342 0.04977,0.04611 0.0625,0.0625 0.01273,0.01639 0.01789,0.04374 0.03125,0.0625 0.01505,0.01466 0.01565,0.04746 0.03125,0.0625 0.01654,0.02122 0.04026,0.03072 0.0625,0.0625 0.303058,0.283947 0.711831,0.591828 1.375,0.65625 0.834356,0.08105 2.088305,-0.254191 4,-1.53125 0.01018,-0.0027 0.02107,-0.0027 0.03125,0 0.01018,-0.0027 0.02107,-0.0027 0.03125,0 0.0027,0.01018 0.0027,0.02107 0,0.03125 0.01018,-0.0027 0.02107,-0.0027 0.03125,0 0.0027,0.01018 0.0027,0.02107 0,0.03125 0.0027,0.01018 0.0027,0.02107 0,0.03125 -0.01018,0.0027 -0.02107,0.0027 -0.03125,0 0.0027,0.01018 0.0027,0.02107 0,0.03125 -1.924242,1.285441 -3.187871,1.58496 -4.0625,1.5 -0.437314,-0.04248 -0.76631,-0.173959 -1.03125,-0.34375 0.0059,0.0075 -0.0059,0.02365 0,0.03125 0.267096,0.3443 0.630345,0.780994 1.0625,1.125 0.135287,0.107692 0.527978,0.155478 0.96875,0.09375 0.440772,-0.06173 0.929639,-0.232605 1.21875,-0.4375 0.618811,-0.438554 1.055719,-0.619872 1.53125,-0.9375 0.170647,-0.113983 0.328836,-0.220542 0.4375,-0.34375 0.108664,-0.123208 0.183602,-0.239516 0.1875,-0.46875 0.0035,-0.203602 0.0014,-0.285087 -0.03125,-0.34375 -0.03263,-0.05866 -0.158236,-0.163092 -0.5,-0.3125 -0.70477,-0.308103 -1.426175,-0.676801 -2.125,-0.9375 -0.277952,-0.103691 -0.513914,-0.205744 -0.71875,-0.21875 z"
+                                    id="path4079"
+                                    inkscape:connector-curvature="0" />
+                                    <path
+                                    style="fill:#ffffff;fill-opacity:1;stroke:none"
+                                    d="m 13.29806,28.203387 c 0.726562,0.6875 1.937722,0.665204 2.94836,0.625683 2.267039,-0.08865 3.714044,-1.227105 5.260919,-2.71148 0,0.359375 -0.04705,1.254854 -0.266133,2.296486 -0.281481,1.338291 -0.15839,1.908035 -0.09589,2.26741 -0.648438,-0.3125 -0.771174,-0.300474 -1.586394,-0.297729 -1.111518,0.0037 -2.182365,-0.01335 -3.265625,0 -0.915698,0.01129 -1.655051,0.06143 -2.694113,0.537989 0.710937,-1.148437 0.378563,-1.796484 -0.301124,-2.718359 z"
+                                    id="path4048"
+                                    inkscape:connector-curvature="0"
+                                    sodipodi:nodetypes="cscscsscc" />
+                                    <path
+                                    style="fill:#ffffff;fill-opacity:1;stroke:none"
+                                    d="m 16.55892,0.696257 c -0.715868,0.03393 -1.373613,0.189836 -1.84375,0.40625 -1.141178,0.525306 -2.04107,1.256639 -2.21875,2.875 -0.137672,1.253957 0.06855,2.645009 0.09375,3.90625 0.0495,2.478193 0.163934,2.89401 0.15625,3.125 -0.01666,0.500689 -2.433832,3.356319 -2.8124988,4.28125 -0.43826,1.070493 -0.908831,2.049944 -1.3125,3.21875 -0.181744,0.526231 -0.45967,0.993715 -0.75,1.46875 -0.16832,0.275403 -0.487858,0.407433 -0.46875,0.9375 0.01352,0.374901 0.0513,0.750391 0.03125,1.125 -0.0108,0.201886 0.15625,0.375 0.15625,0.375 -0.04321,-0.05282 0.489182,-0.640823 0.9375,-0.53125 0.771411,0.18854 1.439773,1.066225 1.40625,1.0625 0,0 -0.415511,-2.408219 0.6874998,-4.84375 0.479643,-1.059091 1.007583,-1.95854 1.249999,-3.03125 0.189778,-0.839783 0.790296,-1.796225 0.9375,-1.96875 0.547514,-0.641694 0.625507,-0.988464 0.59375,-1.75 -0.0091,-0.219108 0.125,-1.09375 0.125,-1.09375 0,0 -0.09743,-0.213557 -0.1875,-0.28125 C 13.068543,9.773368 13.133459,9.379932 13.33009,9.05294 13.436936,8.875258 13.764816,8.608087 13.764816,8.608087 13.55081,8.257334 13.165235,7.839652 13.234572,6.409272 c 0.02761,-0.56951 0.35625,-1.311269 1.168486,-1.203625 0.37615,0.04985 0.854392,0.635829 0.975528,1.317339 0.05763,0.324221 0.05341,0.986464 0.05341,0.986464 0.487915,-0.198592 1.011865,-0.0984 1.416745,0.07666 0,0 -0.284403,-0.699008 -0.158,-1.29583 0.08213,-0.387767 0.4819,-0.902784 1.243373,-1.184764 0.402942,-0.149212 0.982146,-0.09926 1.20029,0.270963 0.217308,0.368805 0.407789,0.755688 0.558919,1.156187 0.05621,0.148951 0.1347,0.301066 0.128026,0.460129 -0.01476,0.351846 -0.02109,0.668721 -0.203431,1.012556 -0.114199,0.215345 -0.419256,0.599132 -0.419256,0.599132 0,0 0.591737,0.236574 0.550217,0.706149 -0.0273,0.308761 0.01317,0.533997 -0.283705,0.885559 0.203125,0.125 0.484353,0.851144 1,2.031251 0.361009,0.826203 0.591883,1.670756 0.90625,2.5 0.310104,0.817997 0.890586,1.515077 1.1875,2.312499 0.933094,2.506013 0.450421,5.411304 0.28125,5.53125 l 0.34375,0 c -0.0027,-0.01018 -0.0027,-0.02107 0,-0.03125 0.284772,-0.375379 0.59966,-0.585767 0.9375,-0.71875 0.913617,-1.425104 0.989104,-2.776825 0.625,-3.90625 -0.364104,-1.129425 -1.188244,-2.020029 -2.1875,-2.531249 -0.0027,-0.01018 -0.0027,-0.02107 0,-0.03125 -0.01018,0.0027 -0.02107,0.0027 -0.03125,0 -0.0027,-0.01018 -0.0027,-0.02107 0,-0.03125 -0.0027,-0.01018 -0.0027,-0.02107 0,-0.03125 0.006,-0.01385 0.0174,-0.02525 0.03125,-0.03125 0.01018,-0.0027 0.02107,-0.0027 0.03125,0 0.01018,-0.0027 0.02107,-0.0027 0.03125,0 1.026001,0.524902 1.906326,1.430764 2.28125,2.593749 0.371671,1.152897 0.374552,2.470148 -0.53125,3.90625 0.304871,-0.07773 0.632874,-0.130507 0.9375,-0.09375 0.364694,0.044 0.673028,0.174415 0.9375,0.3125 0.264472,0.138085 0.4808,0.304291 0.5625,0.46875 0.05156,0.103779 -0.105978,0.306751 -0.25,0.1875 -0.104848,-0.08682 -0.248969,-0.306432 -0.5,-0.4375 -0.251031,-0.131067 -0.52564,-0.27035 -0.875,-0.3125 -0.698721,-0.08431 -1.328721,-0.04254 -1.90625,0.71875 0.0027,0.01018 0.0027,0.02107 0,0.03125 -0.01018,0.0027 -0.02107,0.0027 -0.03125,0 -8.61e-4,0.0026 -0.0304,-0.0026 -0.03125,0 -0.338977,1.034954 0.194543,1.718837 0.875,1.90625 1.784492,0.49149 2.7548,-1.407844 2.8125,-1.625 l 0.375,0.03125 c 0.34375,-0.671875 0.543985,-1.923375 0.34375,-2.875 -0.224489,-1.066892 -0.447942,-2.004479 -0.875,-3.0625 -0.460045,-1.139674 -0.784569,-1.989887 -1.906254,-3.156189 -0.714994,-0.743434 -1.260812,-1.775031 -1.6875,-2.59375 -0.204817,-0.392998 -0.446927,-0.628735 -0.65625,-1.15625 -0.315185,-0.794299 -0.391739,-1.676826 -0.40625,-2.53125 -0.03829,-2.25477 -0.293822,-4.566999 -2.125,-6 -0.864782,-0.676741 -2.213136,-0.931548 -3.40625,-0.875 z"
+                                    id="path4055"
+                                    inkscape:connector-curvature="0"
+                                    sodipodi:nodetypes="sssssssssscscsssccsscsssccsssssscscsssccccsccccccccscssssssccccsccssssssss" />
+                                    <path
+                                    style="fill:#ffffff;fill-opacity:1;stroke:none"
+                                    d="m 8.4026712,22.383757 c -0.06658,0.0011 -0.128106,0.01718 -0.28125,0.1875 -0.204686,0.227648 -0.557237,0.92115 -0.90625,1.375 -0.698467,0.738652 -1.721061,0.764295 -2.503466,0.944432 -0.214548,0.0494 -0.363075,0.240947 -0.309034,0.493068 0.199391,0.930224 0.166737,1.505737 0.125,2.3125 -0.02642,0.510616 -0.159742,0.781275 -0.195313,1.28125 -0.09227,0.288803 0.153926,0.399693 0.351563,0.414062 1.076418,0.326832 1.980319,0.535809 3.0625,0.804688 1.082181,0.268879 2.028201,0.511035 2.7187498,0.875 0.786886,0.414742 1.278939,0.439952 1.874999,0.21875 0.531207,-0.197135 1.054975,-0.784485 1.125,-1.28125 0.07624,-0.540885 -0.03633,-0.714452 -0.3125,-1.125 -1.435209,-2.133566 -2.015371,-3.405889 -3.4687488,-5.46875 -0.287558,-0.408146 -0.57781,-0.707342 -1.03125,-0.96875 -0.04436,-0.02557 -0.143336,-0.06423 -0.25,-0.0625 z"
+                                    id="path4121"
+                                    inkscape:connector-curvature="0"
+                                    sodipodi:nodetypes="cscsssccsssssscc" />
+                                    <path
+                                    style="fill:#ffffff;fill-opacity:1;stroke:none"
+                                    d="m 22.40267,22.977507 c -0.203599,-0.0079 -0.352255,0.02865 -0.40625,0.0625 -0.054,0.03385 -0.06713,0.03093 -0.0625,0.25 0.02046,0.967628 0.05169,2.258019 0,3.40625 -0.06488,1.441158 -0.608123,2.763856 -0.375,3.90625 0.05147,0.252248 0.141387,0.44021 0.3125,0.59375 0.171113,0.15354 0.470697,0.282569 0.96875,0.34375 1.129633,0.138765 1.870231,-0.416148 2.5625,-1.15625 0.760312,-0.812846 1.632735,-1.318407 2.5,-1.78125 0.725314,-0.387087 1.241368,-0.498152 1.78125,-1.09375 0.07519,-0.08295 0.126236,-0.201017 0.125,-0.28125 -0.0012,-0.08023 -0.009,-0.129844 -0.15625,-0.21875 -1.360052,-0.821101 -2.302188,-1.886887 -2.3125,-3.125 -0.0023,-0.27636 0.0059,-0.334045 0,-0.5 -0.0031,-0.0886 -0.147106,-0.140325 -0.21875,-0.03125 -0.117957,0.179585 -0.292597,0.501397 -0.53125,0.78125 -0.470902,0.552196 -1.016064,0.794945 -1.5,0.875 -0.483936,0.08006 -0.89434,0.0061 -1.125,-0.0625 -0.794538,-0.236454 -1.176088,-0.846547 -1.25,-1.375 -0.03794,-0.271285 0.02818,-0.395466 0.0625,-0.59375 -0.125727,-0.0048 -0.08168,0.01138 -0.375,0 z"
+                                    id="path4123"
+                                    inkscape:connector-curvature="0"
+                                    sodipodi:nodetypes="scsscsssssccssssscccs" />
+                                </g>
+                                </svg>
+                                <span class="pending">WebView</span>
+                            </div>
+                            <div class="platform-icon">
+                                <svg
+                                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                xmlns:cc="http://creativecommons.org/ns#"
+                                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                xmlns:svg="http://www.w3.org/2000/svg"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                width="32"
+                                height="32"
+                                id="svg6044"
+                                version="1.1"
+                                inkscape:version="0.48.1 r9760"
+                                sodipodi:docname="apple.svg"
+                                style="display:inline">
+                                <defs
+                                    id="defs6046" />
+                                <sodipodi:namedview
+                                    id="base"
+                                    pagecolor="#ffffff"
+                                    bordercolor="#666666"
+                                    borderopacity="1.0"
+                                    inkscape:pageopacity="0.0"
+                                    inkscape:pageshadow="2"
+                                    inkscape:zoom="11.313708"
+                                    inkscape:cx="24.195295"
+                                    inkscape:cy="5.4177667"
+                                    inkscape:current-layer="layer1"
+                                    showgrid="true"
+                                    inkscape:document-units="px"
+                                    inkscape:grid-bbox="true"
+                                    inkscape:window-width="1680"
+                                    inkscape:window-height="997"
+                                    inkscape:window-x="0"
+                                    inkscape:window-y="0"
+                                    inkscape:window-maximized="1"
+                                    fit-margin-top="0"
+                                    fit-margin-left="0"
+                                    fit-margin-right="0"
+                                    fit-margin-bottom="0"
+                                    borderlayer="true"
+                                    inkscape:snap-global="false"
+                                    showguides="true"
+                                    inkscape:guide-bbox="true"
+                                    inkscape:object-paths="true"
+                                    inkscape:snap-smooth-nodes="true"
+                                    inkscape:object-nodes="true"
+                                    inkscape:snap-intersection-paths="true"
+                                    inkscape:snap-grids="false"
+                                    inkscape:snap-page="true" />
+                                <metadata
+                                    id="metadata6049">
+                                    <rdf:RDF>
+                                    <cc:Work
+                                        rdf:about="">
+                                        <dc:format>image/svg+xml</dc:format>
+                                        <dc:type
+                                        rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                        <dc:title />
+                                    </cc:Work>
+                                    </rdf:RDF>
+                                </metadata>
+                                <g
+                                    id="layer1"
+                                    inkscape:label="Layer 1"
+                                    inkscape:groupmode="layer"
+                                    style="display:inline">
+                                    <path
+                                    style="fill:#ffffff"
+                                    d="M 10.944914,30.25634 C 9.8390551,29.886518 8.6591215,28.868953 7.4359284,27.230221 5.5515947,24.705749 4.440183,22.110771 4.0153406,19.243668 3.8732614,18.284828 3.8180213,16.439831 3.9059729,15.590825 4.1296397,13.431743 4.8536092,11.73156 6.1239544,10.382079 7.2277888,9.2094806 8.6402783,8.4627253 10.224911,8.2139849 c 1.136747,-0.1784357 2.193733,-0.15027 3.104767,0.082733 0.223506,0.057163 0.853311,0.2829632 1.399567,0.5017784 0.546255,0.2188147 1.12228,0.4255296 1.280054,0.4593661 0.43682,0.093681 0.979627,0.030519 1.579103,-0.1837478 0.287961,-0.1029243 0.829764,-0.2963452 1.204009,-0.4298245 1.042684,-0.371888 1.543552,-0.4618652 2.757101,-0.4952924 0.828494,-0.022822 1.15858,-0.010076 1.625242,0.062754 1.58355,0.2471376 2.88435,0.9112463 4.035907,2.0604858 0.315057,0.314424 0.572831,0.605799 0.572831,0.647501 0,0.0417 -0.341765,0.408981 -0.759477,0.816174 -0.913722,0.890713 -1.165348,1.18226 -1.552253,1.798528 -0.580001,0.923836 -0.83668,1.844701 -0.841298,3.018252 -0.0042,1.079902 0.177529,1.887441 0.623733,2.770905 0.535005,1.059285 1.595166,2.102613 2.87845,2.832748 0.215974,0.12288 0.402867,0.249962 0.415316,0.282405 0.08931,0.232735 -0.855927,2.367573 -1.534518,3.465748 -1.051897,1.702301 -2.455062,3.219663 -3.633645,3.929366 -0.605243,0.364457 -0.962777,0.47987 -1.574502,0.50825 -0.664333,0.03082 -1.052,-0.05463 -2.361165,-0.520439 -0.556846,-0.19813 -1.16831,-0.398025 -1.358809,-0.44421 -1.253539,-0.303911 -2.242938,-0.22576 -3.69674,0.291998 -0.413983,0.147436 -0.992485,0.353466 -1.285561,0.457845 -0.481774,0.171583 -0.596733,0.191566 -1.19895,0.208411 -0.540742,0.01513 -0.721233,2.13e-4 -0.959159,-0.07938 z M 16.359548,8.6100911 c -0.143217,-0.024003 -0.287091,-0.070457 -0.31972,-0.1032284 -0.03883,-0.039004 -0.05758,-0.3392638 -0.05428,-0.8692837 0.0059,-0.9504238 0.09407,-1.3529995 0.469974,-2.1465401 0.320117,-0.6757733 0.705568,-1.2209502 1.307916,-1.8498984 1.11031,-1.1593433 2.24832,-1.7780032 3.700035,-2.0114617 0.561207,-0.090251 0.565058,-0.084755 0.565058,0.8063519 0,0.9792418 -0.214081,1.9249253 -0.61524,2.7177731 -0.443566,0.8766612 -1.419082,1.9928683 -2.22315,2.5437792 -0.539152,0.3694032 -1.288248,0.7201647 -1.833069,0.8583289 -0.461594,0.117058 -0.58302,0.1236533 -0.997528,0.054179 z"
+                                    id="path3246"
+                                    inkscape:connector-curvature="0" />
+                                </g>
+                                </svg>
+                                <span class="pending">WebView</span>
+                            </div>
+                            <div class="platform-icon">
+                                <svg
+                                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                xmlns:cc="http://creativecommons.org/ns#"
+                                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                xmlns:svg="http://www.w3.org/2000/svg"
+                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+                                width="32"
+                                height="32"
+                                id="svg6044"
+                                version="1.1"
+                                inkscape:version="0.48.1 r9760"
+                                sodipodi:docname="windows.svg"
+                                style="display:inline">
+                                <defs
+                                    id="defs6046" />
+                                <sodipodi:namedview
+                                    id="base"
+                                    pagecolor="#ffffff"
+                                    bordercolor="#666666"
+                                    borderopacity="1.0"
+                                    inkscape:pageopacity="0.0"
+                                    inkscape:pageshadow="2"
+                                    inkscape:zoom="0.5"
+                                    inkscape:cx="20.597094"
+                                    inkscape:cy="-4.8399643"
+                                    inkscape:current-layer="layer1"
+                                    showgrid="true"
+                                    inkscape:document-units="px"
+                                    inkscape:grid-bbox="true"
+                                    inkscape:window-width="1680"
+                                    inkscape:window-height="997"
+                                    inkscape:window-x="0"
+                                    inkscape:window-y="0"
+                                    inkscape:window-maximized="1"
+                                    fit-margin-top="0"
+                                    fit-margin-left="0"
+                                    fit-margin-right="0"
+                                    fit-margin-bottom="0"
+                                    borderlayer="true"
+                                    inkscape:snap-global="false"
+                                    showguides="true"
+                                    inkscape:guide-bbox="true"
+                                    inkscape:object-paths="true"
+                                    inkscape:snap-smooth-nodes="true"
+                                    inkscape:object-nodes="true"
+                                    inkscape:snap-intersection-paths="true"
+                                    inkscape:snap-grids="false"
+                                    inkscape:snap-page="true" />
+                                <metadata
+                                    id="metadata6049">
+                                    <rdf:RDF>
+                                    <cc:Work
+                                        rdf:about="">
+                                        <dc:format>image/svg+xml</dc:format>
+                                        <dc:type
+                                        rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                        <dc:title />
+                                    </cc:Work>
+                                    </rdf:RDF>
+                                </metadata>
+                                <g
+                                    id="layer1"
+                                    inkscape:label="Layer 1"
+                                    inkscape:groupmode="layer"
+                                    style="display:inline">
+                                    <path
+                                    style="fill:#ffffff"
+                                    d="m 17.920066,28.852135 c -0.446495,-0.08312 -1.072748,-0.240377 -1.391673,-0.34945 -0.895124,-0.306134 -2.127932,-1.159868 -2.487108,-1.534766 L 13.717693,26.630162 15.0687,21.957265 c 0.743053,-2.570092 1.462311,-4.474842 1.544336,-4.556866 0.121531,-0.121531 0.341138,-0.04142 1.186486,0.432814 1.759119,0.986856 3.165518,1.453175 5.00155,1.32454 1.138698,-0.07978 1.634525,-0.173858 3.2617,-0.61889 1.265626,-0.34615 1.505925,-0.305862 1.549399,0.259762 0.02572,0.334655 -2.190927,7.887265 -2.498615,8.56729 -0.215568,0.476429 -0.489891,0.648212 -1.624171,1.017068 -1.860804,0.605115 -3.911232,0.77784 -5.569319,0.469152 z m -7.209737,-3.514626 c -1.2763941,-0.650555 -1.7967292,-0.72027 -3.1884813,-0.72027 -1.2800658,0 -1.8590611,0.0991 -3.5489232,0.607443 -1.0476088,0.315139 -1.2246914,0.339523 -1.4786525,0.203606 -0.1635519,-0.08753 -0.2885134,-0.257538 -0.2885134,-0.392517 0,-0.130961 0.5844307,-2.287324 1.2987348,-4.791917 L 4.7590341,15.866826 5.635442,15.532157 c 1.7154786,-0.655081 2.8263725,-0.872563 4.470256,-0.875157 1.344763,-0.0021 1.604981,0.03162 2.408584,0.312337 1.083513,0.400943 2.084723,1.141012 2.605738,1.629175 0.160646,0.150517 -0.243127,1.37787 -1.100313,4.325659 -0.671458,2.309084 -1.298502,4.367945 -1.393432,4.575246 -0.146896,0.320785 -0.229005,0.374203 -0.551386,0.358716 -0.208334,-0.01001 -0.822384,-0.244289 -1.36456,-0.520624 z m 9.791539,-7.754129 c -0.813815,-0.216118 -2.565159,-1.092668 -2.954487,-1.423515 -0.09568,-0.08131 -0.268137,-0.258609 -0.383245,-0.394007 -0.204216,-0.240218 -0.264708,-0.05106 1.063411,-4.653773 0.900353,-3.1202565 1.423197,-4.750195 1.544579,-4.8151571 0.129303,-0.069201 0.49749,0.081542 1.246645,0.5103993 1.373502,0.7862682 2.292284,1.12949 3.657219,1.2011329 1.381897,0.072533 2.526001,-0.1124665 4.288767,-0.6934863 0.780424,-0.257233 1.490585,-0.4402086 1.578135,-0.4066123 0.436003,0.1673097 0.3298,0.7365543 -0.971756,5.2086135 -0.704274,2.419844 -1.250975,4.184611 -1.322919,4.299812 -0.191325,0.30636 -1.000768,0.665006 -2.274971,1.007987 -1.575217,0.424006 -4.186896,0.499714 -5.471378,0.158606 z m -6.107996,-3.150397 c -1.334601,-0.692202 -2.003011,-0.903649 -3.316198,-0.972522 -1.25454,-0.0658 -2.9511635,0.204694 -4.1558069,0.662557 -0.74331,0.282519 -1.2604226,0.290276 -1.5027161,0.02255 C 5.2472384,13.955602 5.3348888,13.767073 6.5944681,9.4238858 L 7.9555514,4.7307006 8.7076729,4.4179494 C 10.321944,3.7466947 11.272638,3.5680697 13.22317,3.5695365 c 1.659159,0.00125 1.86361,0.025359 2.65511,0.3131217 0.471643,0.1714735 1.041476,0.5123575 1.536372,0.8115351 0.712116,0.4304923 0.913675,0.6132795 0.966276,0.8762792 0.06029,0.3014315 -0.423748,1.9231563 -2.180273,7.9243565 -0.256385,0.875944 -0.578525,1.395067 -0.862855,1.390477 -0.04077,-6.96e-4 -0.465541,-0.204204 -0.943928,-0.452323 z"
+                                    id="path3097"
+                                    inkscape:connector-curvature="0"
+                                    sodipodi:nodetypes="ssscssssssssssssssscsccssssssssssssssssssssscscsssssscs" />
+                                </g>
+                                </svg>
+                                <span class="pending">WebView</span>
+                            </div>
+                        </div>
+
+-->
