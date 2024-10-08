@@ -332,7 +332,6 @@
         h2 {
             font-size: 4.25em;
             font-weight: 700;
-            color: #000;
         }
         p {
             font-size: 1.4em;
@@ -353,8 +352,46 @@
             align-items: flex-start;
         }
         .overview p {
+            color: #000; 
+        }
+
+        .overview h2 {
+            color: #000; 
+        }
+
+        .paradigm {
+            background-color: rgb(0, 0, 0);
+            color: #fff;
+        }
+        .paradigm .grid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .paradigm p{
+            color: #fff;   
+        }
+
+        .paradigm h2{
+            color: #fff;   
+        }
+        
+
+        .professional {
+            background-color: white;
             color: #000;
-            
+        }
+        .professional .grid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .professional p {
+            color: #000;
+        }
+
+        .professional h2 {
+            color: #000;
         }
 
         .gopher-section {
@@ -366,10 +403,21 @@
             align-items: center;
         }
 
+        .gopher-section p {
+            color: #fff;
+        }
+
+        .gopher-section h2 {
+            color: #fff;
+        }
+
         .gopher-content {
-            display: flex;
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
             width: 100%;
-            height: 100vh;
+            height:100vh
         }
 
         .gopher-text {
@@ -378,6 +426,8 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            grid-column: 3 / 8;
+            text-align: left;
         }
 
         #gopher-container {
@@ -387,6 +437,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            grid-column: 8 / -1;
         }
 
         #gopher-canvas-container {
@@ -450,31 +501,34 @@
         </div>
 
         <section class="hero">
-        <div class="grid-container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Finally the native multiplatform UI framework for Go Engineers!</h1>
-                    <p>Simple, Stable, Easy to deploy, Batteries Included. Awesome!</p>
-                    <a href="#join-waitlist" class="cta-button"> > Join Pre-release Mailing List</a>
-                </div>
-                <div class="hero-image">
-                    <!-- Placeholder for future image or animation -->
+            <div class="grid-container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>Finally the native multiplatform UI framework for Go Engineers!</h1>
+                        <p>Simple, Stable, Easy to deploy, Batteries Included. Awesome!</p>
+                        <a href="#join-waitlist" class="cta-button"> > Join Pre-release Mailing List</a>
+                    </div>
+                    <div class="hero-image">
+                        <!-- Placeholder for future image or animation -->
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
         <section class="overview">
             <div class="grid-container">
                 <div class="overview-content">
                     <div class="overview-text">
                         <h2>Overview</h2>
-                        <p>Carefully designed from first principles in order to make our lives <span style="font-weight: bold;">easier</span> and create <span style="font-weight: bold;">beautiful</span> graphical applications faster,
-                            zui's bespoke, opinionated design enables a plethora of bug-free features in one simple and cohesive set of libraries.
+                        <p>Carefully designed from first principles to be <span style="font-weight: bold;">easier</span>.
+                            Create <span style="font-weight: bold;">beautiful</span> graphical applications <span style="font-weight: bold;"></span>faster</span>.
                             
                         </p>
-                        <p>We are hopeful that it will stand the test of time across all present and future platforms with the utmost care for simplicity, ergonomics, and developer experience.</p>
-                        <p><span style="text-decoration: underline;">In a few keywords</span>, zui is: Functional, Composable, Multiplatform, Native-first, Semi-Declarative, simplified reactivity, Isomorphic, pure go code hence minimal tooling requirements.</p>
+                        <p>Our goal is simplicity,stability, and excellent developer and user experience.</p>
+                        <p>zui is:
+                            Functional, Composable, Multiplatform, Semi-Declarative,<br>
+                            Reactive (bespoke simplified implementation), 
+                            <span style="font-weight: bold;">normal</span> Go code (hence minimal tooling requirements).</p>
                     </div>
                     <div class="overview-image">
                     </div>
@@ -483,16 +537,55 @@
             </div>
         </section>
 
-        <section class="gopher-section">
-            <div class="gopher-content">
-                <div class="gopher-text">
-                    <h2>Meet Your New Companion</h2>
-                    <p>Zui brings the power of Go to your UI development, with the playful spirit of our favorite mascot. Simple, fun, yet sharp.</p>
+        <section class="paradigm">
+            <div class="grid-container">
+                <div class="paradigm-content">
+                    <div class="paradigm-text">
+                        <h2>A paradigm shift in UI design</h2>
+                        <p>Rethought from the ground up</p>
+                        <p></p>
+                        <p>zui's groundbreaking simplicity is thanks to: function composition and observable mutable properties.That's it.</p>
+                        <p>No compiler magic, no annotations, no mandatory additional build steps.<br>
+                          Just the regular Go code that you know and love.
+                        </p>
+                    </div>
+                    <div id="paradigm-image">
+                    </div>
                 </div>
-                <div id="gopher-container">
-                    <div id="gopher-canvas-container"></div>
-                    <p class="gopher-caption">The transcendent Go gopher: is it turning clockwise or counter-clockwise?</p>
-                    <p class="gopher-attribution">The Go Gopher mascot, created by Renee French.</p>
+            </div>
+        </section>
+
+        <section class="professional">
+            <div class="grid-container">
+                <div class="professional-content">
+                    <div class="professional-text">
+                        <h2>Batteries included</h2>
+                        <p>zui is for developpers who need professional results rapidly.</p>
+                        <p></p>
+                        <p>Declarative thanks to predefined functions, you can also define custom ones.</p>
+                        <p>Only one way to approach state management and it has been made easier.<br>
+                            Every element on screen holds some state which is data saved as a set of properties (in a map).<br>
+                            Property mutations can be "watched" and "reacted to" (reactive programming).
+                        </p>
+                        <p>Automatic route creation based on app structure.</p>
+                    </div>
+                    <div id="professional-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gopher-section">
+                <div class="gopher-content">
+                    <div class="gopher-text">
+                        <h2>Go</h2>
+                        <p>zui brings the power of Go to your UI development, with the playful spirit of our favorite mascot. Simple, fun, yet sharp.</p>
+                    </div>
+                    <div id="gopher-container">
+                        <div id="gopher-canvas-container"></div>
+                        <p class="gopher-caption">The transcendent Go gopher: is it turning clockwise or counter-clockwise?</p>
+                        <p class="gopher-attribution">The Go Gopher mascot, created by Renee French.</p>
+                    </div>
                 </div>
             </div>
         </section>
