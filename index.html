@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zui - Native UI Framework for Go Engineers</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+    <link rel="manifest" href="./site.webmanifest">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sketch.js/1.0/sketch.min.js"></script>
     <script type="importmap">
     {
@@ -333,6 +333,10 @@
             font-size: 4.25em;
             font-weight: 700;
         }
+        h3 {
+            font-size: 3.5em;
+            font-weight: 500;
+        }
         p {
             font-size: 1.4em;
             color: rgba(255, 255, 255, 0.8);
@@ -359,6 +363,18 @@
             color: #000; 
         }
 
+        .paradigm-content {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+        .paradigm-text {
+            grid-column: 1 / 8;
+            text-align: left;
+        }
+
         .paradigm {
             background-color: rgb(0, 0, 0);
             color: #fff;
@@ -376,6 +392,17 @@
             color: #fff;   
         }
         
+        .professional-content {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+        .professional-text {
+            grid-column: 1 / 8;
+            text-align: left;
+        }
 
         .professional {
             background-color: white;
@@ -469,6 +496,13 @@
             border-radius: 50px;
             box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.02);
         }
+
+        .subtext {
+            font-size: 0.6em;
+            font-weight: 300;
+            font-style: italic;
+            opacity: 0.5;
+        }
     </style>
 </head>
 <body>
@@ -506,7 +540,7 @@
                     <div class="hero-text">
                         <h1>Finally the native multiplatform UI framework for Go Engineers!</h1>
                         <p>Simple, Stable, Easy to deploy, Batteries Included. Awesome!</p>
-                        <a href="#join-waitlist" class="cta-button"> > Join Pre-release Mailing List</a>
+                        <a href="#join-waitlist" class="cta-button"> Click for pre-release Newsletter</a>
                     </div>
                     <div class="hero-image">
                         <!-- Placeholder for future image or animation -->
@@ -544,10 +578,9 @@
                         <h2>A paradigm shift in UI design</h2>
                         <p>Rethought from the ground up</p>
                         <p></p>
-                        <p>zui's groundbreaking simplicity is thanks to: function composition and observable mutable properties.That's it.</p>
-                        <p>No compiler magic, no annotations, no mandatory additional build steps.<br>
-                          Just the regular Go code that you know and love.
-                        </p>
+                        <p>zui's groundbreaking simplicity can be attributed to<br><span style="font-weight: bold;">function composition</span> and <span style="font-weight: bold;">observable mutable properties</span>.<br>That's it.</p>
+                        <p>No compiler magic, no annotations, no DSL, no template, no mandatory additional build steps.</p>
+                        <p>Just the regular Go code that you already know, on web, iOS, android, desktop, terminal etc.</p>
                     </div>
                     <div id="paradigm-image">
                     </div>
@@ -560,14 +593,19 @@
                 <div class="professional-content">
                     <div class="professional-text">
                         <h2>Batteries included</h2>
-                        <p>zui is for developpers who need professional results rapidly.</p>
+                        <p>zui is for developpers who need <span style="font-weight: bold;">professional results rapidly</span>.</p>
                         <p></p>
-                        <p>Declarative thanks to predefined functions, you can also define custom ones.</p>
-                        <p>Only one way to approach state management and it has been made easier.<br>
-                            Every element on screen holds some state which is data saved as a set of properties (in a map).<br>
-                            Property mutations can be "watched" and "reacted to" (reactive programming).
+                        <p>Declarative thanks to predefined functions, you can also define custom components.</p>
+                        <u><p>Only one approach to <span style="font-weight: bold;">"state management"</span>:</p></u>
+                        <p>Every UI element has a unique id and can hold some "state" which is data saved as a set of properties.<br>
+                        Property changes can be "watched" and "reacted to" (reactive programming). That simple!</p>
+                        
+                        <u><p>Only one approach to <span style="font-weight: bold;">"routing"</span>:</p></u>
+                        <p>Routes are automatically derived from the app structure.<br>
+                        <span style="font-weight: bold, italic;">Crossplatform Deep-linking and <a href="https://en.wikipedia.org/wiki/HATEOAS">HATEOAS</a> are for free.</span>
                         </p>
-                        <p>Automatic route creation based on app structure.</p>
+
+                        <p>This is all built-in.</p>
                     </div>
                     <div id="professional-image">
                     </div>
@@ -578,12 +616,13 @@
         <section class="gopher-section">
                 <div class="gopher-content">
                     <div class="gopher-text">
-                        <h2>Go</h2>
+                        <h2>Go's superior ecosystem</h2>
                         <p>zui brings the power of Go to your UI development, with the playful spirit of our favorite mascot. Simple, fun, yet sharp.</p>
+                        <p> Reuse your libraries, datastructures and business logic. </p>
                     </div>
                     <div id="gopher-container">
                         <div id="gopher-canvas-container"></div>
-                        <p class="gopher-caption">The transcendent Go gopher: is it turning clockwise or counter-clockwise?</p>
+                        <p class="gopher-caption">The transcendent Go gopher: is it "watching" clockwise or counter-clockwise?</p>
                         <p class="gopher-attribution">The Go Gopher mascot, created by Renee French.</p>
                     </div>
                 </div>
