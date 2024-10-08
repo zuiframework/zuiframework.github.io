@@ -142,11 +142,17 @@
             text-decoration: none;
         }
         .version {
-            font-family: 'Courier New', monospace;
-            font-size: 0.2em;
-            color: #FFFACD;
+            display:none;
+            color: #39FF14; /* Bright neon apple green */
+            font-size: 0.17em;
+            font-family: 'Courier New', Courier, monospace;
+            text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14; /* Glow effect */
+            background-color: rgba(0, 0, 0, 0.3); /* Slightly transparent background */
+            animation: blink 1.5s infinite;
+            border: 1px solid rgba(#39FF14, 0.5);
+            border-radius: 50px;
             position: absolute;
-            bottom: -0.5em;
+            bottom: 1em;
             right: 0;
         }
         @keyframes neon {
@@ -451,7 +457,7 @@
             grid-template-columns: repeat(12, 1fr);
             gap: 20px;
             width: 100%;
-            height:100vh
+            height:100vh;
         }
 
         .gopher-text {
@@ -549,7 +555,7 @@
             <div class="logo-container">
                 <div class="logo">
                     <a href="https://zui.dev" target="_blank">zui</a>
-                    <pre class="version">v0.991</pre>
+                   <sub><pre class="version">v0.1</pre></sub>
                 </div>
             </div>
             <nav class="top-nav">
@@ -662,7 +668,7 @@
                     </div>
                     <div id="gopher-container">
                         <div id="gopher-canvas-container"></div>
-                        <p class="gopher-caption">The transcendent Go gopher: is it "watching" clockwise or counter-clockwise?</p>
+                        <p class="gopher-caption">The transcendent Go gopher.<br>Is it "watching" clockwise or counter-clockwise?</p>
                         <p class="gopher-attribution">The Go Gopher mascot, created by Renee French.</p>
                     </div>
                 </div>
