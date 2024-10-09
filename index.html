@@ -360,6 +360,16 @@
             line-height: 1.6em;
             letter-spacing: 0.2ch;
         }
+
+        .bracket{
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            font-weight: 300;
+            text-align: left;
+            line-height: 1.6em;
+            letter-spacing: 0.2ch;
+        }
+
         .overview {
             background-color: white;
             color: #000;
@@ -509,6 +519,9 @@
         .familiar-text {
             grid-column: 1 / 8;
             text-align: left;
+            display:flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .familiar {
@@ -546,6 +559,82 @@
             font-weight: 300;
             font-style: italic;
             opacity: 0.5;
+        }
+
+        .row {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .row span {
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .row p {
+            margin: 0;
+        }
+
+        footer {
+            background-color: #fff;
+            color: rgba(0, 0, 0, 0.8);
+            padding: 2rem 0;
+            font-family: 'Inter', sans-serif;
+            border-top: 1px solid #b4b4b4;
+            font-weight: 300;
+            min-height:40vh;
+            display:flex;
+            flex-direction:column;
+            justify-content: space-between;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8em;
+            margin-bottom: 2em;
+            flex: 1 0;
+        }
+
+        .footer-column h3 {
+            font-size: 2.25em;
+            font-weight: 300;
+            margin-bottom: 1em;
+            color: #000000;
+        }
+
+        .footer-column ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column ul li a {
+            color: #444444;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: #ff7700;
+        }
+
+        .footer-bottom {
+            padding-top: 1em;
+            text-align: center;
+            font-size: 0.875em;
+            color: #000000;
+            margin-bottom:1em;
+            flex: 0 0;
+        }
+        .footer-bottom p{
+            color: #000;
+            font-size: smaller;
+            font-weight: 300;
+            text-align: center;
         }
     </style>
 </head>
@@ -681,10 +770,10 @@
                     <div class="familiar-content">
                         <div class="familiar-text">
                             <h2>Familiarize yourself</h2>
-                            <p>〉  Get started. Read the docs.</p>
-                            <p>〉  Try it in the browser.</p>
-                            <p>〉  Get the full multiplatform license.</p>
-                            <p>〉  Join the community.</p>
+                            <div class="row"><span class="bracket">〉  </span><p><a href="#getstarted">Get started</a>. Read the <a href="#docs">docs</a>.</p></div>
+                            <div class="row"><span class="bracket">〉  </span><p><a href="#repl">Try it in the browser.</a></p></div>
+                            <div class="row"><span class="bracket">〉  </span><p><a href="#pricing">Get the full multiplatform license.</a></p></div>
+                            <div class="row"><span class="bracket">〉  </span><p><a href="#community">Join the community.</a></p></div>
                             <p>You are fullstack now.</p>
                         </div>
                         <div id="familiar-image">
@@ -693,6 +782,49 @@
                 </div>
             </section>
         </main>
+
+        <footer>
+            <div class="footer-content grid-container">
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#docs">Documentation</a></li>
+                        <li><a href="#api">API Reference</a></li>
+                        <li><a href="#examples">Examples</a></li>
+                        <li><a href="#community">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#github">GitHub</a></li>
+                        <li><a href="#releases">Release Notes</a></li>
+                        <li><a href="#roadmap">Roadmap</a></li>
+                        <li><a href="#contribute">Contribute</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Community</h3>
+                    <ul>
+                        <li><a href="#slack">Slack Channel</a></li>
+                        <li><a href="#stackoverflow">Stack Overflow</a></li>
+                        <li><a href="#twitter">Twitter</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#license">License</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Zui Framework. All rights reserved.</p>
+            </div>
+        </footer>
     </div>
 
     <script type="module">
