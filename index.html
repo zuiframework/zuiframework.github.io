@@ -125,7 +125,7 @@
             padding-top: 20px;
         }
         .logo {
-            font-size: 4.7em;
+            font-size: 4.7rem;
             font-family: "AfrobeatNova", sans-serif;
             font-weight: normal;
             color: white;
@@ -136,7 +136,7 @@
             cursor: pointer;
             position: relative;
             display: inline-block;
-            letter-spacing: -0.06em;
+            letter-spacing: -0.06rem;
         }
         .logo a {
             color: inherit;
@@ -145,7 +145,7 @@
         .version {
             display:none;
             color: #39FF14; /* Bright neon apple green */
-            font-size: 0.17em;
+            font-size: 0.17rem;
             font-family: 'Courier New', Courier, monospace;
             text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14; /* Glow effect */
             background-color: rgba(0, 0, 0, 0.3); /* Slightly transparent background */
@@ -183,8 +183,8 @@
             justify-content: space-between;
             align-items: center;
             padding-top: 20px;
-            gap: 0.5em;
-            letter-spacing:-0.05em;
+            gap: 0.5rem;
+            letter-spacing:-0.05rem;
         }
         .nav-left, .nav-right {
             display: flex;
@@ -193,7 +193,7 @@
             color: white;
             text-decoration: none;
             margin-left: 20px;
-            font-size: 1em;
+            font-size: 1rem;
             display: flex;
             align-items: center;
         }
@@ -223,12 +223,12 @@
             position: relative;
             display: grid;
             grid-template-columns: repeat(7, 1fr); /* Adjust the number based on your icon count */
-            gap: 2em;
+            gap: 2rem;
             width: 100%;
             max-width: 33vw;  /*Adjust this value as needed */
             align-self: center;
-            margin-bottom: 2em;
-            margin-top: 10em;
+            margin-bottom: 2rem;
+            margin-top: 10rem;
         }
 
         .platform-icon {
@@ -336,37 +336,37 @@
             margin-top: 0;
         }
         h1 {
-            font-size: 5em;
+            font-size: 5rem;
             color: rgba(255, 255, 255, 0.9);
             margin-bottom: 20px;
             font-weight: 800;
-            letter-spacing: -0.05em;
+            letter-spacing: -0.05rem;
             line-height: 0.96;
         }
         h2 {
-            font-size: 4.25em;
+            font-size: 4.25rem;
             font-weight: 700;
         }
         h3 {
-            font-size: 3.5em;
+            font-size: 3.5rem;
             font-weight: 500;
         }
         p {
-            font-size: 1.4em;
+            font-size: 1.4rem;
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 30px;
             font-weight: 300;
             text-align: left;
-            line-height: 1.6em;
+            line-height: 1.6rem;
             letter-spacing: 0.2ch;
         }
 
         .bracket{
-            font-size: 1.4em;
+            font-size: 1.4rem;
             margin-bottom: 30px;
             font-weight: 300;
             text-align: left;
-            line-height: 1.6em;
+            line-height: 1.6rem;
             letter-spacing: 0.2ch;
         }
 
@@ -395,7 +395,7 @@
             width: 100%;
         }
         .paradigm-text {
-            grid-column: 1 / 8;
+            grid-column: 4 / 12;
             text-align: left;
         }
 
@@ -466,7 +466,7 @@
             grid-column: 1 / -1;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+            gap: 4em;
             width: 100%;
             height:100vh;
         }
@@ -493,7 +493,8 @@
 
         #gopher-canvas-container {
             width: 100%;
-            height: 80%;
+            height: 100%;
+            padding: 2rem;
         }
 
         .gopher-caption {
@@ -505,7 +506,7 @@
         .gopher-attribution {
             text-align: center;
             margin-top: 5px;
-            font-size: 0.8em;
+            font-size: 0.8rem;
             opacity: 0.7;
         }
 
@@ -556,8 +557,8 @@
         }
 
         .subtext {
-            line-height: 0.8em;
-            font-size: 0.7em;
+            line-height: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 300;
             font-style: italic;
             opacity: 0.5;
@@ -580,11 +581,13 @@
         footer {
             background-color: #fff;
             color: rgba(0, 0, 0, 0.8);
-            padding: 2rem 0;
+            padding-top: 2rem;
+            padding-left:10rem;
+            padding-right: 10rem;
             font-family: 'Inter', sans-serif;
             border-top: 1px solid #d9d9d9;
             font-weight: 300;
-            min-height:40vh;
+            min-height:50vh;
             display:flex;
             flex-direction:column;
             justify-content: space-between;
@@ -592,16 +595,16 @@
 
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 8em;
-            margin-bottom: 2em;
-            flex: 1 0;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+            gap: 4rem;
+            margin-bottom: 2rem;
+            flex: 1 1;
         }
 
         .footer-column h3 {
-            font-size: 2.25em;
+            font-size: 2.25rem;
             font-weight: 300;
-            margin-bottom: 1em;
+            margin-bottom: 1rem;
             color: #000000;
         }
 
@@ -625,11 +628,11 @@
         }
 
         .footer-bottom {
-            padding-top: 1em;
+            padding-top: 1rem;
             text-align: center;
-            font-size: 0.875em;
+            font-size: 0.875rem;
             color: #000000;
-            margin-bottom:1em;
+            margin-bottom:1rem;
             flex: 0 0;
         }
         .footer-bottom p{
@@ -719,7 +722,7 @@
                             <p></p>
                             <p>zui's groundbreaking simplicity can be attributed to<br><span style="font-weight: bold;">function composition</span> and <span style="font-weight: bold;">observable mutable properties</span>.<br>That's it.</p>
                             <p>No compiler magic, no annotations, no DSL, no template language, no extra build steps.</p>
-                            <p>Just the regular Go code that you already know, on web, iOS, android, desktop, terminal etc.</p>
+                            <p>Just the regular Go code that you already know,<br> on web, iOS, android, desktop, terminal etc.</p>
                         </div>
                         <div id="paradigm-image">
                         </div>
@@ -786,14 +789,14 @@
         </main>
 
         <footer>
-            <div class="footer-content grid-container">
+            <div class="footer-content">
                 <div class="footer-column">
                     <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#docs">Documentation</a></li>
                         <li><a href="#api">API Reference</a></li>
                         <li><a href="#examples">Examples</a></li>
-                        <li><a href="#community">Community</a></li>
+                        <li><a href="#repl">Try online</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -824,7 +827,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Zui Framework. All rights reserved.</p>
+                <p>&copy; 2024 zui. All rights reserved.</p>
             </div>
         </footer>
     </div>
@@ -877,7 +880,7 @@
                     const center = box.getCenter(new THREE.Vector3());
                     gopher.position.sub(center);
                     
-                    camera.position.z = 3.6;
+                    camera.position.z = 4;
                     
                     animate();
                 },
