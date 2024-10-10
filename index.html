@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zui - Native UI Framework for Go Engineers</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300,400;600;700;800&display=swap" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
@@ -122,20 +122,18 @@
             grid-column: 1 / 3;
             grid-row: 1;
             align-self: start;
-            padding-top: 20px;
+            padding-top:2rem;
         }
         .logo {
             font-size: 4.7rem;
             font-family: "AfrobeatNova", sans-serif;
             font-weight: normal;
             color: white;
-            text-align: left;
             mix-blend-mode: normal;
             transition: all 0.3s ease;
             animation: neon 3s infinite;
             cursor: pointer;
-            position: relative;
-            display: inline-block;
+
             letter-spacing: -0.06rem;
         }
         .logo a {
@@ -177,13 +175,11 @@
             }
         }
         .top-nav {
-            grid-column: 3 / -1;
-            grid-row: 1;
+            grid-column: 4 / -1;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 20px;
-            gap: 0.5rem;
+            gap: 5rem;
             letter-spacing:-0.05rem;
         }
         .nav-left, .nav-right {
@@ -192,7 +188,7 @@
         .top-nav a {
             color: white;
             text-decoration: none;
-            margin-left: 20px;
+            margin-left: 1rem;
             font-size: 1rem;
             display: flex;
             align-items: center;
@@ -317,7 +313,7 @@
             pointer-events: none;
         }
         .hero-image {
-            grid-column: 8 / -1;
+            grid-column: 9 / -1;
         }
 
         .overview-content {
@@ -354,16 +350,41 @@
         p {
             font-size: 1.4rem;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
             font-weight: 300;
             text-align: left;
             line-height: 1.6rem;
             letter-spacing: 0.2ch;
         }
 
+        ul {
+            padding-left: 1.25rem; /* 20px / 16px = 1.25rem */
+            list-style-type: disc;
+            
+            font-size: 1.4rem;
+            color: rgba(43, 43, 43, 0.8);
+            margin-bottom: 2rem;
+            margin-top: 2rem;
+            font-weight: 300;
+            text-align: left;
+            line-height: 1.6rem;
+            letter-spacing: 0.2ch;
+        }
+        li {
+            margin-bottom: 1rem;
+        }
+        ul > li > ul {
+            list-style-type: none;
+        }
+        ul > li > ul > li {
+            color: rgba(91, 91, 91, 0.6);
+            font-weight: 300;
+            padding-left: 1rem;
+        }
+
         .bracket{
             font-size: 1.4rem;
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
             font-weight: 300;
             text-align: left;
             line-height: 1.6rem;
@@ -395,7 +416,7 @@
             width: 100%;
         }
         .paradigm-text {
-            grid-column: 4 / 12;
+            grid-column: 5 / -1;
             text-align: left;
         }
 
@@ -488,7 +509,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            grid-column: 8 / -1;
+            grid-column: 9 / -1;
         }
 
         #gopher-canvas-container {
@@ -554,11 +575,13 @@
             font-weight: 400;
             border-radius: 50px;
             box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.02);
+            white-space: nowrap;
+            justify-self: center;
         }
 
         .subtext {
             line-height: 0.8rem;
-            font-size: 0.7rem;
+            font-size: 0.9rem;
             font-weight: 300;
             font-style: italic;
             opacity: 0.5;
@@ -596,7 +619,7 @@
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-            gap: 4rem;
+            gap: clamp(1rem, 4vw, 4rem);
             margin-bottom: 2rem;
             flex: 1 1;
         }
@@ -640,6 +663,7 @@
             font-size: smaller;
             font-weight: 300;
             text-align: center;
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -680,12 +704,12 @@
                         <div class="hero-text">
                             <h1>Finally the native multiplatform UI framework for Go Engineers!</h1>
                             <p>Simple, Stable, Easy to deploy, Batteries Included. Awesome!</p>
-                            <a href="#join-waitlist" class="cta-button"> Join the pre-release</a>
                         </div>
                         <div class="hero-image">
                             <!-- Placeholder for future image or animation -->
                         </div>
                     </div>
+                    <a href="#join-waitlist" class="cta-button"> Join the pre-release</a>
                 </div>
             </section>
 
@@ -694,17 +718,27 @@
                     <div class="overview-content">
                         <div class="overview-text">
                             <h2>Overview</h2>
-                            <p>Carefully designed from first principles to be <span style="font-weight: bold;">easier</span>.
-                                Create <span style="font-weight: bold;">beautiful</span> graphical applications <span style="font-weight: bold;"></span>faster</span>.
+                            <p>Carefully designed from first principles to be <span style="font-weight: bold;">easier</span>.<br>
+                                Create <span style="font-weight: bold;">beautiful</span> graphical applications <span style="font-weight: bold;">quicker</span>.
                                 
                             </p>
                             <p>Our goal is simplicity,stability, and excellent developer and user experience.</p>
-                            <p>zui is:<br>
-                                - Functional, Composable, Declarative,<br>
-                                - Multi-platform (web, mobile, desktop, terminal),<br>
-                                - Reactive (bespoke simplified implementation),<br>
-                                - <span style="font-weight: bold;">*Normal</span> Go code <br><span class="subtext">*That explains the minimal tooling requirements.</span>
-                            </p>
+                            <p>zui is:</p>
+                            <ul>
+                                <li>functional, composable, declarative</li>
+                                <li>multi-platform:
+                                    <ul>
+                                        <li>web(CSR/SSR/SSG)</li>
+                                        <li>mobile</li>
+                                        <li>desktop</li>
+                                        <li>terminal</li>
+                                    </ul>
+                                </li>
+                                <li>reactive, thanks to a bespoke, simplified implementation</li>
+                                <li><span style="font-weight: bold;">normal*</span> Go code 
+                                    <br><span class="subtext">*explains the minimal tooling requirements.</span>
+                                </li>
+                            </ul>
                         </div>
                         <div class="overview-image">
                         </div>
@@ -716,6 +750,7 @@
             <section class="paradigm">
                 <div class="grid-container">
                     <div class="paradigm-content">
+                        <div id="paradigm-image"></div>
                         <div class="paradigm-text">
                             <h2>A paradigm shift in UI design</h2>
                             <p>Rethought from the ground up.</p>
@@ -723,8 +758,6 @@
                             <p>zui's groundbreaking simplicity can be attributed to<br><span style="font-weight: bold;">function composition</span> and <span style="font-weight: bold;">observable mutable properties</span>.<br>That's it.</p>
                             <p>No compiler magic, no annotations, no DSL, no template language, no extra build steps.</p>
                             <p>Just the regular Go code that you already know,<br> on web, iOS, android, desktop, terminal etc.</p>
-                        </div>
-                        <div id="paradigm-image">
                         </div>
                     </div>
                 </div>
@@ -779,7 +812,7 @@
                             <div class="row"><span class="bracket">〉  </span><p><a href="#repl">Try it in the browser.</a></p></div>
                             <div class="row"><span class="bracket">〉  </span><p><a href="#pricing">Get the full multiplatform license.</a></p></div>
                             <div class="row"><span class="bracket">〉  </span><p><a href="#community">Join the community.</a></p></div>
-                            <p>You are fullstack now.</p>
+                            <p>Look at you... You are fullstack now.</p>
                         </div>
                         <div id="familiar-image">
                         </div>
@@ -942,7 +975,7 @@
                     // Fixed parameters
                     const float u_brightness = 0.41;
                     const float u_blobiness = 1.12;
-                    const float u_particles = 40.0;
+                    const float u_particles = 25.0;
                     const float u_energy = 1.01;
     
                     float noise(vec2 co) {
