@@ -68,12 +68,12 @@
             h4,
             h5,
             h6 {
-                overflow-wrap: break-word;
                 text-wrap: balance;
             }
 
             p, li, figcaption {
                 max-width:65ch;
+                overflow-wrap: break-word;
             }
 
             /* 8. Create a root stacking context */
@@ -84,6 +84,48 @@
         }
     </style>
     <style>
+        @media (max-width: 1200px) {
+            .grid-container {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .grid-container {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Adjust specific grid items */
+        .hero-content, .overview-content, .paradigm-content, .professional-content, .familiar-content {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .hero-text, .overview-text, .paradigm-text, .professional-text, .familiar-text {
+            grid-column: span 1;
+        }
+
+        /* Responsive typography */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.5rem; }
+            p { font-size: 1rem; }
+        }
         @font-face {
             font-family: 'AfrobeatNova';
             src: url('./AfrobeatNova-Regular.woff2') format('woff2');
@@ -93,10 +135,11 @@
         body, html { 
             margin: 0; 
             padding: 0; 
-            overflow-x: hidden; 
+            overflow-x: auto; 
             font-family: 'Inter', sans-serif;
             background-color: transparent;
             color: #fff;
+            min-width: 320px
         }
         #webgl-container { 
             position: fixed; 
@@ -113,10 +156,10 @@
         .grid-container {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+            gap: 1.25rem;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 1.25rem;
         }
         .logo-container {
             grid-column: 1 / 3;
@@ -151,7 +194,7 @@
             border: 1px solid rgba(#39FF14, 0.5);
             border-radius: 50px;
             position: absolute;
-            bottom: 1em;
+            bottom: 1rem;
             right: 0;
         }
         @keyframes neon {
@@ -177,7 +220,6 @@
         .top-nav {
             grid-column: 4 / -1;
             display: flex;
-            justify-content: space-between;
             align-items: center;
             gap: 5rem;
             letter-spacing:-0.05rem;
@@ -250,7 +292,7 @@
 
         .soon, .ready, .pending {
             position: absolute;
-            bottom: -20px;
+            bottom: -1.25rem;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Courier New', monospace;
@@ -304,7 +346,7 @@
             grid-column: 1 / -1;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+            gap: 1.4rem;
             width: 100%;
         }
         .hero-text {
@@ -320,7 +362,7 @@
             grid-column: 1 / -1;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+            gap: 1.25rem;
             width: 100%;
         }
         .overview-text {
@@ -330,11 +372,12 @@
         h1, h2, h3, h4, h5, h6 {
             text-align: left;
             margin-top: 0;
+            text-wrap: balance;
         }
         h1 {
             font-size: 5rem;
             color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 20px;
+            margin-bottom: 1.25rem;
             font-weight: 800;
             letter-spacing: -0.05rem;
             line-height: 0.96;
@@ -355,6 +398,7 @@
             text-align: left;
             line-height: 1.6rem;
             letter-spacing: 0.2ch;
+            
         }
 
         ul {
@@ -395,11 +439,7 @@
             background-color: white;
             color: #000;
         }
-        .overview .grid-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
+ 
         .overview p {
             color: #000; 
         }
@@ -412,7 +452,7 @@
             grid-column: 1 / -1;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+            gap: 1.25rem;
             width: 100%;
         }
         .paradigm-text {
@@ -424,11 +464,7 @@
             background-color: rgb(0, 0, 0);
             color: #fff;
         }
-        .paradigm .grid-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
+
         .paradigm p{
             color: #fff;   
         }
@@ -441,7 +477,7 @@
             grid-column: 1 / -1;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+            gap: 1.25rem;
             width: 100%;
         }
         .professional-text {
@@ -453,11 +489,7 @@
             background-color: white;
             color: #000;
         }
-        .professional .grid-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
+
         .professional p {
             color: #000;
         }
@@ -487,14 +519,14 @@
             grid-column: 1 / -1;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 4em;
+            gap: 4rem;
             width: 100%;
             height:100vh;
         }
 
         .gopher-text {
             flex: 1;
-            padding-right: 20px;
+            padding-right: 1.25rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -520,13 +552,13 @@
 
         .gopher-caption {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 1rem;
             font-style: italic;
         }
 
         .gopher-attribution {
             text-align: center;
-            margin-top: 5px;
+            margin-top: 0.5rem;
             font-size: 0.8rem;
             opacity: 0.7;
         }
@@ -534,8 +566,7 @@
         .familiar-content {
             grid-column: 1 / -1;
             display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+            gap: 1.25rem;
             width: 100%;
         }
         .familiar-text {
@@ -543,21 +574,16 @@
             text-align: left;
             display:flex;
             flex-direction: column;
-            gap: 10px;
         }
 
         .familiar {
             background-color: white;
             color: #000;
-            flex:1 1;
+            flex:1 0;
             min-height:0;
-            padding-bottom:50px;
+            padding-bottom:4rem;
         }
-        .familiar .grid-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
+
         .familiar p {
             color: #000;
         }
@@ -565,9 +591,17 @@
         .familiar h2 {
             color: #000;
         }
+        .cta-button-container {
+            grid-column: 1 / -1; /* Spans from the first to the last grid line */
+            /* Alternative: grid-column: 1 / 13; for a 12-column grid */
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding: 1.25rem 0;
+        }
 
         .cta-button {
-            padding: 12px 24px;
+            padding: 1rem 2rem;
             background-color: rgba(0, 0, 0, 0.05);
             backdrop-filter: blur(5px);
             color: #fff;
@@ -576,7 +610,6 @@
             border-radius: 50px;
             box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.02);
             white-space: nowrap;
-            justify-self: center;
         }
 
         .subtext {
@@ -594,7 +627,7 @@
 
         .row span {
             flex-shrink: 0;
-            margin-right: 10px;
+            margin-right: 1rem;
         }
 
         .row p {
@@ -644,6 +677,7 @@
             color: #444444;
             text-decoration: none;
             transition: color 0.3s ease;
+            font-size: 1rem;
         }
 
         .footer-column ul li a:hover {
@@ -709,7 +743,9 @@
                             <!-- Placeholder for future image or animation -->
                         </div>
                     </div>
-                    <a href="#join-waitlist" class="cta-button"> Join the pre-release</a>
+                    <div class="cta-button-container">
+                        <a href="#join-waitlist" class="cta-button"> Join the pre-release</a>
+                    </div>
                 </div>
             </section>
 
