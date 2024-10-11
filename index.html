@@ -69,6 +69,7 @@
             h5,
             h6 {
                 text-wrap: balance;
+                hyphens: auto;
             }
 
             p, li, figcaption {
@@ -84,46 +85,7 @@
         }
     </style>
     <style>
-        @media (max-width: 1200px) {
-            .grid-container {
-                grid-template-columns: repeat(8, 1fr);
-            }
-        }
-        @media (max-width: 992px) {
-            .grid-container {
-                grid-template-columns: repeat(6, 1fr);
-            }
-        }
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            h1 { font-size: 3rem; }
-            h2 { font-size: 2.5rem; }
-            p { font-size: 1rem; }
-        }
-        @media (max-width: 576px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* New media query for smaller devices like iPhone 14 Pro */
-        @media (max-width: 393px) {
-            h1 {
-                font-size: 2.5rem; /* Removed the 5rem as you mentioned */
-            }
-            h2 {
-                font-size: 2rem;
-            }
-            h3 {
-                font-size: 1.75rem;
-            }
-            p {
-                font-size: 0.9rem;
-                line-height: 1.4;
-            }
-        }
+        
 
         /* Adjust specific grid items */
         .hero-content, .overview-content, .paradigm-content, .professional-content, .familiar-content {
@@ -159,19 +121,21 @@
             position: fixed; 
             top: 0; 
             left: 0; 
-            width: 100%; 
+            width: 100%;
+            max-width:100vw;
             height: 100%; 
             z-index: -1;
         }
         .content-wrapper {
             position: relative;
+            min-width:100%;
             z-index: 1;
         }
         .grid-container {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 1.25rem;
-            max-width: 1200px;
+            max-width: min(100vw,1200px);
             margin: 0 auto;
             padding: 0 1.25rem;
         }
@@ -512,7 +476,7 @@
             color: #000;
         }
 
-        .gopher-section {
+        .gopher {
             background-color: #000000;
             color: #ffffff;
             overflow: hidden;
@@ -521,11 +485,11 @@
             align-items: center;
         }
 
-        .gopher-section p {
+        .gopher p {
             color: #fff;
         }
 
-        .gopher-section h2 {
+        .gopher h2 {
             color: #fff;
         }
 
@@ -533,7 +497,6 @@
             grid-column: 1 / -1;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 4rem;
             width: 100%;
             height:100vh;
         }
@@ -549,19 +512,32 @@
         }
 
         #gopher-container {
-            flex: 1;
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            grid-column: 9 / -1;
+            grid-column: 8 / -1;
         }
 
         #gopher-canvas-container {
+            position: relative;
             width: 100%;
             height: 100%;
-            padding: 2rem;
+            margin: 0 auto;
+            padding-bottom: 75%; 
+        }
+
+        #gopher-canvas-container canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #gopher-caption-container {
+            flex: 1 1;
         }
 
         .gopher-caption {
@@ -615,17 +591,24 @@
         }
 
         .cta-button {
-            padding: 1rem 2rem;
-            background-color: rgba(0, 0, 0, 0.05);
-            backdrop-filter: blur(5px);
-            color: #fff;
+            padding: 1rem 1rem;
+            background-color: rgba(0, 0, 0, 0.09);
+            backdrop-filter: blur(25px);
             text-decoration: none;
             font-weight: 400;
-            border-radius: 50px;
-            box-shadow: inset 0 0 0 4px rgba(0, 0, 0, 0.02);
+            font-size: small;
+            border-radius: 0px;
             white-space: nowrap;
             color: #fbff14; 
-            animation: blink 2s infinite;
+            animation: blink 1.5s infinite;
+        }
+
+        .cta-button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            animation:none;
+            color:#ff7700;
+            text-decoration: underline ;
+            font-size: smaller;
         }
 
         .subtext {
@@ -654,8 +637,6 @@
             background-color: #fff;
             color: rgba(0, 0, 0, 0.8);
             padding-top: 2rem;
-            padding-left:10rem;
-            padding-right: 10rem;
             font-family: 'Inter', sans-serif;
             border-top: 1px solid #d9d9d9;
             font-weight: 300;
@@ -671,6 +652,7 @@
             gap: clamp(1rem, 4vw, 4rem);
             margin-bottom: 2rem;
             flex: 1 1;
+            margin-left: 10rem;
         }
 
         .footer-column h3 {
@@ -714,6 +696,57 @@
             font-weight: 300;
             text-align: center;
             white-space: nowrap;
+        }
+
+        @media (max-width: 1200px) {
+            .grid-container {
+                grid-template-columns: repeat(12, 1fr);
+            }
+        }
+        @media (max-width: 992px) {
+            .grid-container {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2.75rem; }
+            p, ul { font-size: 1.25rem; }
+        }
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.5rem; }
+            p, ul { font-size: 1rem; }
+            .overview-text, .paradigm-text, .professional-text, .familiar-text {
+                grid-column: 1 / -1;
+            }
+            .gopher-text {
+                grid-column: 1 / -1;
+            }
+            #gopher-container {
+                display: none;
+            }
+        }
+        @media (max-width: 525px) {
+            *{
+                text-justify: auto;
+            }
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            p, ul { font-size: 1rem; }
+            .overview-text, .paradigm-text, .professional-text, .familiar-text {
+                grid-column: 1 / -1;
+            }
+            .gopher-text {
+                grid-column: 1 / -1;
+            }
+            #gopher-container {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -840,17 +873,21 @@
                 </div>
             </section>
 
-            <section class="gopher-section">
-                <div class="gopher-content">
-                    <div class="gopher-text">
-                        <h2>Go's superior ecosystem</h2>
-                        <p>zui brings the power of Go to your UI development, with the playful spirit of our favorite mascot. Simple, fun, yet sharp.</p>
-                        <p> Reuse your libraries, datastructures and business logic across server and clients. </p>
-                    </div>
-                    <div id="gopher-container">
-                        <div id="gopher-canvas-container"></div>
-                        <p class="gopher-caption">The transcendent Go gopher.<br>Is it "watching" clockwise or counter-clockwise?</p>
-                        <p class="gopher-attribution">The Go Gopher mascot, created by Renee French.</p>
+            <section class="gopher">
+                <div class="grid-container">
+                    <div class="gopher-content">
+                        <div class="gopher-text">
+                            <h2>Go's superior ecosystem</h2>
+                            <p>zui brings the power of Go to your UI development, with the playful spirit of our favorite mascot. Simple, fun, yet sharp.</p>
+                            <p> Reuse your libraries, datastructures and business logic across server and clients. </p>
+                        </div>
+                        <div id="gopher-container">
+                            <div id="gopher-canvas-container"></div>
+                            <div id="gopher-caption-container">
+                                <p class="gopher-caption">The transcendent Go gopher.<br>Is it "watching" clockwise or counter-clockwise?</p>
+                                <p class="gopher-attribution">The Go Gopher mascot, created by Renee French.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -927,13 +964,12 @@
         function init() {
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x000000);
-
             const container = document.getElementById('gopher-canvas-container');
             const aspect = container.clientWidth / container.clientHeight;
             camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
             
             renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
+            updateRendererSize();
             container.appendChild(renderer.domElement);
 
             const loader = new OBJLoader();
@@ -965,7 +1001,10 @@
                     const center = box.getCenter(new THREE.Vector3());
                     gopher.position.sub(center);
                     
-                    camera.position.z = 4;
+                    camera.position.z = 4.5;
+                    
+                    updateCameraAspect();
+                    scaleGopher();
                     
                     animate();
                 },
@@ -976,36 +1015,47 @@
                     console.error('An error happened', error);
                 }
             );
-
             window.addEventListener('resize', onWindowResize, false);
         }
 
         function animate() {
             requestAnimationFrame(animate);
-
             if (gopher) {
                 gopher.rotation.y += 0.002;
-
                 const time = Date.now() * 0.001;
                 edges.forEach((edge, index) => {
                     const hue = (time + index * 0.01) % 1;
                     edge.material.color.setHSL(hue, 1, 0.5);
                 });
             }
-
             renderer.render(scene, camera);
         }
 
+        function updateRendererSize() {
+            const container = document.getElementById('gopher-canvas-container');
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
+
+        function updateCameraAspect() {
+            const container = document.getElementById('gopher-canvas-container');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+        }
+
         function onWindowResize() {
-        const container = document.getElementById('gopher-canvas-container');
-        const width = container.clientWidth;
-        const height = container.clientHeight;
+            updateRendererSize();
+            updateCameraAspect();
+            scaleGopher();
+        }
 
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(width, height);
-    }
+        function scaleGopher() {
+            if (gopher) {
+                const container = document.getElementById('gopher-canvas-container');
+                const minDimension = Math.min(container.clientWidth, container.clientHeight);
+                const scaleFactor = minDimension / 450; // Adjusted for better fit
+                gopher.scale.set(scaleFactor, scaleFactor, scaleFactor);
+            }
+        }
 
         init();
     </script>
@@ -1073,60 +1123,80 @@
             };
     
             var gl = Sketch.create({
-                container: document.getElementById('webgl-container'),
-                type: Sketch.WEB_GL
-            });
-    
-            gl.setup = function() {
-                var vert = this.createShader(this.VERTEX_SHADER);
-                var frag = this.createShader(this.FRAGMENT_SHADER);
-                this.shaderSource(vert, GLSL.vert);
-                this.shaderSource(frag, GLSL.frag);
-                this.compileShader(vert);
-                this.compileShader(frag);
-                
-                this.shaderProgram = this.createProgram();
-                this.attachShader(this.shaderProgram, vert);
-                this.attachShader(this.shaderProgram, frag);
-                this.linkProgram(this.shaderProgram);
-                
-                this.useProgram(this.shaderProgram);
-    
-                this.shaderProgram.attributes = {
-                    position: this.getAttribLocation(this.shaderProgram, 'a_position')
-                };
-                this.shaderProgram.uniforms = {
-                    resolution: this.getUniformLocation(this.shaderProgram, 'u_resolution'),
-                    millis: this.getUniformLocation(this.shaderProgram, 'u_millis')
-                };
-    
-                this.geometry = this.createBuffer();
-                this.geometry.vertexCount = 6;
-                this.bindBuffer(this.ARRAY_BUFFER, this.geometry);
-                this.bufferData(this.ARRAY_BUFFER, new Float32Array([-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0]), this.STATIC_DRAW);
-                this.enableVertexAttribArray(this.shaderProgram.attributes.position);
-                this.vertexAttribPointer(this.shaderProgram.attributes.position, 2, this.FLOAT, false, 0, 0);
-    
-                this.resize();
-            };
-    
-            gl.updateUniforms = function() {
-                if (!this.shaderProgram) return;
-                this.uniform2f(this.shaderProgram.uniforms.resolution, this.width, this.height);
-            };
-    
-            gl.draw = function() {
-                this.uniform1f(this.shaderProgram.uniforms.millis, this.millis + 5000);
-                this.clear(this.COLOR_BUFFER_BIT | this.DEPTH_BUFFER_BIT);
-                this.bindBuffer(this.ARRAY_BUFFER, this.geometry);
-                this.drawArrays(this.TRIANGLES, 0, this.geometry.vertexCount);
-            };
-    
-            gl.resize = function() {
-                this.viewport(0, 0, this.width, this.height);
-                this.updateUniforms();
-            };
-        })();
+        container: document.getElementById('webgl-container'),
+        type: Sketch.WEB_GL
+    });
+
+    gl.setup = function() {
+        this.createShaderProgram();
+        this.createGeometry();
+        this.resize();
+    };
+
+    gl.createShaderProgram = function() {
+        var vert = this.createShader(this.VERTEX_SHADER);
+        var frag = this.createShader(this.FRAGMENT_SHADER);
+        this.shaderSource(vert, GLSL.vert);
+        this.shaderSource(frag, GLSL.frag);
+        this.compileShader(vert);
+        this.compileShader(frag);
+        
+        this.shaderProgram = this.createProgram();
+        this.attachShader(this.shaderProgram, vert);
+        this.attachShader(this.shaderProgram, frag);
+        this.linkProgram(this.shaderProgram);
+        
+        this.useProgram(this.shaderProgram);
+
+        this.shaderProgram.attributes = {
+            position: this.getAttribLocation(this.shaderProgram, 'a_position')
+        };
+        this.shaderProgram.uniforms = {
+            resolution: this.getUniformLocation(this.shaderProgram, 'u_resolution'),
+            millis: this.getUniformLocation(this.shaderProgram, 'u_millis')
+        };
+    };
+
+    gl.createGeometry = function() {
+        this.geometry = this.createBuffer();
+        this.geometry.vertexCount = 6;
+        this.bindBuffer(this.ARRAY_BUFFER, this.geometry);
+        this.bufferData(this.ARRAY_BUFFER, new Float32Array([-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0]), this.STATIC_DRAW);
+    };
+
+    gl.updateUniforms = function() {
+        if (!this.shaderProgram) return;
+        this.useProgram(this.shaderProgram);
+        this.enableVertexAttribArray(this.shaderProgram.attributes.position);
+        this.vertexAttribPointer(this.shaderProgram.attributes.position, 2, this.FLOAT, false, 0, 0);
+        this.uniform2f(this.shaderProgram.uniforms.resolution, this.width, this.height);
+    };
+
+    gl.draw = function() {
+        if (!this.shaderProgram) return;
+        this.useProgram(this.shaderProgram);
+        this.uniform1f(this.shaderProgram.uniforms.millis, this.millis + 5000);
+        this.clear(this.COLOR_BUFFER_BIT | this.DEPTH_BUFFER_BIT);
+        this.bindBuffer(this.ARRAY_BUFFER, this.geometry);
+        this.drawArrays(this.TRIANGLES, 0, this.geometry.vertexCount);
+    };
+
+    gl.resize = function() {
+        this.viewport(0, 0, this.width, this.height);
+        this.updateUniforms();
+        this.draw(); // Immediately redraw after resize
+    };
+
+    // Handle WebGL context loss and restoration
+    gl.canvas.addEventListener('webglcontextlost', function(event) {
+        event.preventDefault();
+        cancelAnimationFrame(gl.loop);
+    }, false);
+
+    gl.canvas.addEventListener('webglcontextrestored', function() {
+        gl.setup();
+    }, false);
+})();
     </script>
 </body>
 </html>
