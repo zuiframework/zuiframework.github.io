@@ -106,6 +106,45 @@ body, html {
     z-index: -1;
 }
 
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Using viewport height */
+    z-index: -1;
+    overflow: hidden;
+}
+
+.background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This ensures the video covers the entire container */
+    transition: opacity 2s ease-in-out;
+    opacity: 0;
+    /* Removed transform as it's not needed with object-fit: cover */
+}
+
+
+.background-video.active {
+    opacity: 1;
+}
+
+/* Optional overlay to ensure text readability */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(60, 0, 0, 0.1);
+    z-index: -1;
+}
+
+
 .content-wrapper {
     position: relative;
     min-width: 100%;
@@ -137,7 +176,7 @@ header.grid-container {
 .logo {
     font-size: var(--fsize-10);
     font-family: "AfrobeatNova", sans-serif;
-    font-weight: normal;
+    font-weight: 400;
     color: white;
     mix-blend-mode: normal;
     transition: all 0.3s ease;
@@ -502,7 +541,7 @@ ul > li > ul > li {
 }
 
 .paradigm {
-    background-color: rgb(0, 0, 0);
+    background-color: black;
     color: #fff;
 }
 
@@ -648,16 +687,15 @@ ul > li > ul > li {
     font-size: var(--fsize--1);
     border-radius: 0px;
     white-space: nowrap;
-    color: #fbff14; 
+    color: white;
     animation: blink 1.5s infinite;
 }
 
 .cta-button:hover {
     background-color: rgba(0, 0, 0, 0.1);
     animation: none;
-    color: #ff7700;
+    color: white;
     text-decoration: underline;
-    font-size: var(--fsize--2);
 }
 
 .subtext {
@@ -848,7 +886,13 @@ footer {
     </style>
 </head>
 <body>
-    <div id="webgl-container"></div>
+    <div id="webgl-container-"></div>
+     <div class="video-container">
+        <video class="background-video active" autoplay muted loop playsinline>
+            <source src="1.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+    </div>
     <div class="content-wrapper">
         <header class="grid-container">
             <div class="logo-container">
@@ -888,7 +932,7 @@ footer {
                 <div class="grid-container">
                     <div class="hero-content">
                         <div class="hero-text">
-                            <h1>Finally the native multiplatform UI framework for Go Engineers!</h1>
+                            <h1>Finally the professional native multiplatform UI framework for Go Engineers!</h1>
                             <p>Simple, Stable, Easy to deploy, Batteries Included. Awesome!</p>
                         </div>
                         <div class="hero-image">
@@ -1059,6 +1103,19 @@ footer {
         </footer>
     </div>
 
+    <script>
+        let currentVideoIndex = 0;
+        const videos = document.querySelectorAll('.background-video');
+
+        // Initialize videos and start auto-switching
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start all videos (muted) to ensure they're loaded and ready
+            videos.forEach(video => {
+                video.play().catch(error => console.log("Video play failed:", error));
+            });
+        });
+    </script>
+
     <script type="module">
         import * as THREE from 'three';
         import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
@@ -1190,6 +1247,7 @@ footer {
                     }
     
                     void main() {
+
                         vec2 position = (gl_FragCoord.xy / u_resolution.x);
                         float t = u_millis * 0.001 * u_energy;
                         
@@ -1218,6 +1276,7 @@ footer {
                         }
                         
                         vec3 col = vec3(a*c, b*c, a*b) * 0.0001 * u_brightness;
+
     
                         // Apply scanlines
                         col -= mod(gl_FragCoord.y, 2.0) < 1.0 ? 0.5 : 0.0;
